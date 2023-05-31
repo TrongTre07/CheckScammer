@@ -10,6 +10,7 @@ import AppNavigation from './src/app/navigation/appNavigation';
 import {MyContextProvider} from './src/app/MyContext';
 import UserInfo from './src/app/screens/UserInfo';
 import History from './src/app/screens/History';
+import PopUpDetails from './src/app/screens/PopUpDetails';
 
 const App = () => {
   return (
