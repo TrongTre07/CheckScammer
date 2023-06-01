@@ -11,6 +11,10 @@ import {MyContextProvider} from './src/app/MyContext';
 import UserInfo from './src/app/screens/UserInfo';
 import History from './src/app/screens/History';
 import PopUpDetails from './src/app/screens/PopUpDetails';
+import Login from './src/app/screens/Login';
+import ChangePassword from './src/app/screens/ChangePassword';
+import Register from './src/app/screens/Register';
+import MyProfile from './src/app/screens/MyProfile';
 
 const App = () => {
   return (
@@ -18,7 +22,7 @@ const App = () => {
 
     <NavigationContainer>
       <MyContextProvider>
-        <History />
+        <AppNavigation />
       </MyContextProvider>
     </NavigationContainer>
   );

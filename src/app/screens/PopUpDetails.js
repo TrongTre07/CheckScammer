@@ -46,7 +46,7 @@ const PopUpDetails = ({modalVisible, openModal, closeModal, selectedItem}) => {
                 <Text style={styles.modalText}>Status: {status}</Text>
               </View>
             </View>
-            <View>
+            <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
               <View style={styles.moreInfoBox}>
                 <Text style={styles.moreInfoText}>
                   More information: {moreInfo}
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     width: '80%',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   modalHeader: {
     fontSize: 20,
@@ -114,12 +114,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightgray',
     padding: 10,
     marginTop: 10,
-    width: '100%',
+    width: 300,
+    height:150,
+    
   },
   moreInfoText: {
     fontSize: 16,
   },
   closeButton: {
+    width:'50%',
     marginTop: 20,
     backgroundColor: 'blue',
     padding: 10,

@@ -1,9 +1,16 @@
 // UserInfoScreen.js
 
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Pressable,
+} from 'react-native';
 
-const UserInfo = () => {
+const UserInfo = ({navigation}) => {
   const handleLogout = () => {
     // Implement logic to handle user logout
   };
@@ -14,30 +21,44 @@ const UserInfo = () => {
 
   const [isLogin, setIslogin] = useState(false);
 
+  const goLogin = () => {
+    navigation.navigate('Login');
+  };
+  const goProfile = () => {
+    navigation.navigate('MyProfile');
+  };
+
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.me}>Tôi</Text>
+      </View>
       <Text style={styles.title}>Tài khoản</Text>
       {isLogin ? (
         <>
           {/* My Profile */}
-          <View style={styles.myProfileContainer}>
-            <Text style={styles.subtitle}>Hồ sơ của tôi</Text>
-            <Image
-              style={styles.iconArrow}
-              source={require('../../media/iconApp/arrow.png')}
-            />
-          </View>
+          <Pressable onPress={goProfile}>
+            <View style={styles.myProfileContainer}>
+              <Text style={styles.subtitle}>Hồ sơ của tôi</Text>
+              <Image
+                style={styles.iconArrow}
+                source={require('../../media/iconApp/arrow.png')}
+              />
+            </View>
+          </Pressable>
         </>
       ) : (
         <>
           {/* My Profile */}
-          <View style={styles.myProfileContainer}>
-            <Text style={styles.subtitle}>Đăng nhập </Text>
-            <Image
-              style={styles.iconArrow}
-              source={require('../../media/iconApp/arrow.png')}
-            />
-          </View>
+          <Pressable onPress={goLogin}>
+            <View style={styles.myProfileContainer}>
+              <Text style={styles.subtitle}>Đăng nhập </Text>
+              <Image
+                style={styles.iconArrow}
+                source={require('../../media/iconApp/arrow.png')}
+              />
+            </View>
+          </Pressable>
         </>
       )}
 
@@ -117,6 +138,19 @@ const UserInfo = () => {
 };
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: '#34cceb',
+    width: '100%',
+    height: 50,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  me: {
+    fontWeight: 'bold',
+    fontSize: 24,
+    color: 'white',
+  },
   myProfileContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
