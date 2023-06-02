@@ -25,6 +25,10 @@ const MyProfile = ({navigation}) => {
     navigation.navigate('Login');
   };
 
+  const goChangePassword = () =>{
+    navigation.navigate("ChangePassword")
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -49,7 +53,9 @@ const MyProfile = ({navigation}) => {
       </View>
       {/* Language Setting */}
       <View style={styles.myProfileContainer}>
-        <Text style={[styles.subtitle, {textDecorationLine:"underline"}]}>Đổi mật khẩu</Text>
+        <Text
+        onPress={goChangePassword}
+        style={[styles.subtitle, {textDecorationLine:"underline"}]}>Đổi mật khẩu</Text>
         
       </View>
     </View>

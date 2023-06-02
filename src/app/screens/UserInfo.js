@@ -9,6 +9,7 @@ import {
   Image,
   Pressable,
 } from 'react-native';
+import { useMyContext } from '../MyContext';
 
 const UserInfo = ({navigation}) => {
   const handleLogout = () => {
@@ -19,7 +20,7 @@ const UserInfo = ({navigation}) => {
     // Implement logic to handle user account deletion
   };
 
-  const [isLogin, setIslogin] = useState(false);
+const {isLogged} = useMyContext()
 
   const goLogin = () => {
     navigation.navigate('Login');
@@ -34,7 +35,7 @@ const UserInfo = ({navigation}) => {
         <Text style={styles.me}>Tôi</Text>
       </View>
       <Text style={styles.title}>Tài khoản</Text>
-      {isLogin ? (
+      {isLogged ? (
         <>
           {/* My Profile */}
           <Pressable onPress={goProfile}>
@@ -109,7 +110,7 @@ const UserInfo = ({navigation}) => {
           source={require('../../media/iconApp/arrow.png')}
         />
       </View>
-      {isLogin ? (
+      {isLogged ? (
         <>
           {/* General  */}
           <Text style={styles.title}>Quản lý </Text>

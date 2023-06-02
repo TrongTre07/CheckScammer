@@ -1,6 +1,6 @@
 // HomeScreen.js
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   TextInput,
@@ -9,7 +9,9 @@ import {
   StyleSheet,
   Pressable,
 } from 'react-native';
-import { useMyContext } from '../MyContext';
+import {useMyContext} from '../MyContext';
+import instance from '../../axios/AxiosInstance';
+import Toast from 'react-native-toast-message';
 
 const HomeScreen = ({navigation}) => {
   //   const [phoneNumbers, setPhoneNumbers] = React.useState([]);
@@ -20,67 +22,94 @@ const HomeScreen = ({navigation}) => {
       id: 1,
       phoneNumber: '1234567899',
       owner: 'tao ne',
-      time: "12/23/2023"
+      time: '12/23/2023',
     },
     {
       id: 2,
       phoneNumber: '1234567899',
       owner: 'tao ne',
-      time: "12/23/2023"
+      time: '12/23/2023',
     },
     {
       id: 3,
       phoneNumber: '1234567899',
       owner: 'tao ne',
-      time: "12/23/2023"
+      time: '12/23/2023',
     },
-    
   ];
 
-const {data, setData} = useMyContext()
+  const {allNumber, setAllNumber} = useMyContext();
 
+  const sendId = id => {
+    console.log('PRESSED');
+    navigation.navigate('Details');
+  };
 
-  const sendId = (id) =>{
-    console.log("PRESSED", data)
-    navigation.navigate("Details")
-  }
+  useEffect(() => {
+    instance
+      .get('product/get-all')
+      .then(response => {
+        if (response.data.result == true) {
+          setAllNumber(response.data.product);
+        } else {
+          Toast.show({
+            type: 'success',
+            text1: 'Lấy dữ liệu thất bại!',
+          });
+        }
+      })
+      .catch(error => {
+        console.log('ERROR: ', error);
+      });
+  }, []);
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Enter phone number"
-        // Implement the logic to handle user input for searching
-      />
-      <FlatList
-        data={data1}
-        renderItem={({item}) => (
-          <Pressable onPress={() => sendId(item.id)}>
-            <View style={styles.phoneNumberItem}>
-              <Text style={styles.phoneNumberText}>{item.phoneNumber}</Text>
-              <View style={styles.nameAndDate}>
-
-              <Text style={styles.ownerText}>{item.owner}</Text>
-              <Text style={styles.ownerText}>{item.time}</Text>
-              </View>
-            </View>
-          </Pressable>
+      <>
+        {allNumber ? (
+          <>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Enter phone number"
+              // Implement the logic to handle user input for searching
+            />
+            <FlatList
+              data={allNumber}
+              renderItem={({item}) => (
+                <Pressable onPress={() => sendId(item._id)}>
+                  <View style={styles.phoneNumberItem}>
+                    <Text style={styles.phoneNumberText}>
+                      {item.phonenumber}
+                    </Text>
+                    <View style={styles.nameAndDate}>
+                      <Text style={styles.ownerText}>{item.name}</Text>
+                      {/* <Text style={styles.ownerText}>{item.time}</Text> */}
+                    </View>
+                  </View>
+                </Pressable>
+              )}
+              keyExtractor={item => item._id}
+              // Implement the logic to fetch and display the phone numbers and their owners
+            />
+            <Text style={styles.totalScammedText}>
+              Total phone numbers scammed: {allNumber.length}
+            </Text>
+          </>
+        ) : (
+          <Text>Nothing to show...</Text>
         )}
-        keyExtractor={item => item.id}
-        // Implement the logic to fetch and display the phone numbers and their owners
-      />
-      <Text style={styles.totalScammedText}>
-        Total phone numbers scammed: {data.length}
-      </Text>
+      </>
+
+      <Toast />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  nameAndDate:{
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'flex-end'
+  nameAndDate: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   container: {
     flex: 1,
@@ -106,10 +135,12 @@ const styles = StyleSheet.create({
   },
   phoneNumberText: {
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 20,
   },
   ownerText: {
     color: '#888888',
+    fontWeight:'bold',
+    fontSize:16
   },
   totalScammedText: {
     fontWeight: 'bold',
