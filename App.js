@@ -15,6 +15,7 @@ import Login from './src/app/screens/Login';
 import ChangePassword from './src/app/screens/ChangePassword';
 import Register from './src/app/screens/Register';
 import MyProfile from './src/app/screens/MyProfile';
+import DetailsNumber from './src/app/screens/DetailsNumber';
 
 const App = () => {
   return (
@@ -22,7 +23,7 @@ const App = () => {
 
     <NavigationContainer>
       <MyContextProvider>
-        <AppNavigation />
+        <DetailsNumber />
       </MyContextProvider>
     </NavigationContainer>
   );

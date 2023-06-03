@@ -63,6 +63,16 @@ const HomeScreen = ({navigation}) => {
       });
   }, []);
 
+  const convertTime = dateString => {
+    const date = new Date(dateString);
+
+    const timeString = date.toLocaleTimeString();
+
+    return timeString;
+  };
+
+
+
   return (
     <View style={styles.container}>
       <>
@@ -83,7 +93,9 @@ const HomeScreen = ({navigation}) => {
                     </Text>
                     <View style={styles.nameAndDate}>
                       <Text style={styles.ownerText}>{item.name}</Text>
-                      {/* <Text style={styles.ownerText}>{item.time}</Text> */}
+                      <Text style={styles.ownerText}>
+                        {convertTime(item.date)}
+                      </Text>
                     </View>
                   </View>
                 </Pressable>
@@ -91,9 +103,11 @@ const HomeScreen = ({navigation}) => {
               keyExtractor={item => item._id}
               // Implement the logic to fetch and display the phone numbers and their owners
             />
-            <Text style={styles.totalScammedText}>
-              Total phone numbers scammed: {allNumber.length}
-            </Text>
+            <View style={styles.totalScammedContainer}>
+              <Text style={styles.totalScammedText}>
+                Tổng số điện thoại Scam: {allNumber.length}
+              </Text>
+            </View>
           </>
         ) : (
           <Text>Nothing to show...</Text>
@@ -106,6 +120,10 @@ const HomeScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  totalScammedContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
   nameAndDate: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -139,8 +157,8 @@ const styles = StyleSheet.create({
   },
   ownerText: {
     color: '#888888',
-    fontWeight:'bold',
-    fontSize:16
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   totalScammedText: {
     fontWeight: 'bold',
