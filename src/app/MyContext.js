@@ -9,7 +9,7 @@ export const useMyContext = () => useContext(MyContext);
 // Context provider component
 export const MyContextProvider = ({children}) => {
   const [allNumber, setAllNumber] = useState();
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState();
   const [isLogged, setIsLogged] = useState(false);
 
   return (

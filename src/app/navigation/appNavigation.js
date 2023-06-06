@@ -11,6 +11,8 @@ import Register from '../screens/Register';
 
 import {useNavigation, useLayoutEffect} from '@react-navigation/native';
 import MyProfile from '../screens/MyProfile';
+import DetailsNumber from '../screens/DetailsNumber';
+import AddNumberReport from '../screens/AddNumberReport';
 
 const Stack = createNativeStackNavigator();
 
@@ -91,7 +93,8 @@ const HomeAndDetails = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Homepage" component={HomeScreen} />
-      <Stack.Screen name="Details" component={PhoneNumberDetailsScreen} />
+      <Stack.Screen name="Details" component={DetailsNumber} />
+      <Stack.Screen name="AddReport" component={AddNumberReport} />
     </Stack.Navigator>
   );
 };

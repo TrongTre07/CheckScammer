@@ -8,6 +8,7 @@ import {
   FlatList,
   StyleSheet,
   Pressable,
+  Image,
 } from 'react-native';
 import {useMyContext} from '../MyContext';
 import instance from '../../axios/AxiosInstance';
@@ -41,8 +42,7 @@ const HomeScreen = ({navigation}) => {
   const {allNumber, setAllNumber} = useMyContext();
 
   const sendId = id => {
-    console.log('PRESSED');
-    navigation.navigate('Details');
+    navigation.navigate('Details', {idItem: id});
   };
 
   useEffect(() => {
@@ -66,23 +66,43 @@ const HomeScreen = ({navigation}) => {
   const convertTime = dateString => {
     const date = new Date(dateString);
 
-    const timeString = date.toLocaleTimeString();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Note: months are zero-based
+    const day = date.getDate();
 
-    return timeString;
+    const dateRender = `${day}-${month}-${year}`;
+
+    return dateRender;
   };
 
+  const {userData} = useMyContext();
+  const goAddReport = () => {
+    if (userData == undefined) {
+      Toast.show({
+        type: 'success',
+        text1: 'Bạn cần đăng nhập!',
+      });
+      return;
+    }
 
+    navigation.navigate('AddReport');
+  };
 
   return (
     <View style={styles.container}>
       <>
         {allNumber ? (
           <>
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Enter phone number"
-              // Implement the logic to handle user input for searching
-            />
+            <View style={styles.searchBox}>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Enter phone number"
+                // Implement the logic to handle user input for searching
+              />
+              <Pressable onPress={() => goAddReport()}>
+                <Image source={require('../../media/iconApp/report.png')} />
+              </Pressable>
+            </View>
             <FlatList
               data={allNumber}
               renderItem={({item}) => (
@@ -120,6 +140,11 @@ const HomeScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  searchBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   totalScammedContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -136,6 +161,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   searchInput: {
+    width: '90%',
     height: 40,
     borderWidth: 1,
     borderColor: '#CCCCCC',

@@ -2,14 +2,29 @@ import {StyleSheet, Text, View, Image, Flatlist} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import instance from '../../axios/AxiosInstance';
 
-const DetailsNumber = () => {
+const DetailsNumber = ({route}) => {
+  // const {idItem} = route.params;
+  const idItem = "647a8970603562b4c35373b8"
+
   const [dataDetails, setDataDetails] = useState();
+
+  const convertTime = dateString => {
+    const date = new Date(dateString);
+  
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Note: months are zero-based
+    const day = date.getDate();
+  
+    const dateRender = `${day}-${month}-${year}`;
+  
+    return dateRender;
+  };
 
   useEffect(() => {
     instance
-      .get('product/get-by-id/647a8970603562b4c35373b8')
+      .get(`product/get-by-id/${idItem}`)
       .then(response => {
-        console.log('RES: ', response.data);
+        // console.log('RES: ', response.data);
         if (response.data.result == true) {
           setDataDetails(response.data.product);
         } else {
@@ -50,6 +65,11 @@ const DetailsNumber = () => {
               <View style={styles.phoneNumberContainer}>
                 <Text style={styles.text}>NH: </Text>
                 <Text style={styles.text}>{dataDetails.bankname}</Text>
+              </View>
+              {/* Date*/}
+              <View style={styles.phoneNumberContainer}>
+                <Text style={styles.text}>Ngày: {convertTime(dataDetails.date)}</Text>
+                {/* <Text style={styles.text}>{dataDetails.bankname}</Text> */}
               </View>
               {/* Name*/}
               <View
