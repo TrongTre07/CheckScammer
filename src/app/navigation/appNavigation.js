@@ -13,12 +13,25 @@ import {useNavigation, useLayoutEffect} from '@react-navigation/native';
 import MyProfile from '../screens/MyProfile';
 import DetailsNumber from '../screens/DetailsNumber';
 import AddNumberReport from '../screens/AddNumberReport';
+import Welcome from '../screens/Welcome';
 
 const Stack = createNativeStackNavigator();
 
 const Tab = createBottomTabNavigator();
 
+const StackWelcome = createNativeStackNavigator();
+
 const AppNavigation = () => {
+  return (
+    <StackWelcome.Navigator screenOptions={{headerShown: false}}>
+      <StackWelcome.Screen name="Welcome" component={Welcome} />
+      <StackWelcome.Screen name="AppNavigation" component={HomeNavigation} />
+    </StackWelcome.Navigator>
+  );
+};
+
+
+const HomeNavigation = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen

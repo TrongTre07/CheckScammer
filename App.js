@@ -17,11 +17,12 @@ import Register from './src/app/screens/Register';
 import MyProfile from './src/app/screens/MyProfile';
 import DetailsNumber from './src/app/screens/DetailsNumber';
 import AddNumberReport from './src/app/screens/AddNumberReport';
+import Welcome from './src/app/screens/Welcome';
 
 const App = () => {
   return (
     // <HomeScreen/>
-
+    // <Welcome/>
     <NavigationContainer>
       <MyContextProvider>
         <AppNavigation />
