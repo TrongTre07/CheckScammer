@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  Pressable,
+  Pressable,ImageBackground
 } from 'react-native';
 import { useMyContext } from '../MyContext';
 
@@ -31,9 +31,11 @@ const {isLogged} = useMyContext()
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <ImageBackground
+                source={require('../../media/imgBackground/bgHorizontal.png')}
+                 style={styles.header}>
         <Text style={styles.me}>Tôi</Text>
-      </View>
+      </ImageBackground>
       <Text style={styles.title}>Tài khoản</Text>
       {isLogged ? (
         <>
@@ -140,7 +142,6 @@ const {isLogged} = useMyContext()
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: '#34cceb',
     width: '100%',
     height: 50,
     flexDirection: 'row',
@@ -157,6 +158,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 10,
+    backgroundColor: '#FAFBFF',
+
     // borderColor: 'black',
     // borderWidth: 0.19
   },
@@ -166,17 +169,19 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: '#E6EAF1',
   },
 
   title: {
-    backgroundColor: '#EAEAEA',
+    backgroundColor: '#E6EAF1',
     fontSize: 20,
     fontWeight: 'bold',
     padding: 10,
     marginBottom: 2,
+    color:'#3F4A71'
   },
   subtitle: {
-    backgroundColor: '#F8F8F8',
+    color:'#3F4A71',
     fontSize: 20,
     fontWeight: 'bold',
     padding: 10,

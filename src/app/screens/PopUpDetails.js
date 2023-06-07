@@ -46,7 +46,7 @@ const PopUpDetails = ({modalVisible, openModal, closeModal, selectedItem}) => {
                 <Text style={styles.modalText}>Trạng thái: {status.text}</Text>
               </View>
             </View>
-            <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+            <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center',width:'100%'}}>
               <View style={styles.moreInfoBox}>
                 <Text style={styles.moreInfoText}>
                   Chi tiết: {detail}
@@ -104,14 +104,18 @@ const styles = StyleSheet.create({
   modalHeader: {
     fontSize: 20,
     fontWeight: 'bold',
+    color:'#3F4A71',
     marginBottom: 10,
   },
   modalText: {
     fontSize: 16,
     marginBottom: 5,
+    color:'#3F4A71'
+
   },
   moreInfoBox: {
-    backgroundColor: 'lightgray',
+    backgroundColor: '#E0EAFF',
+    borderRadius:6,
     padding: 10,
     marginTop: 10,
     width: 300,
@@ -120,17 +124,21 @@ const styles = StyleSheet.create({
   },
   moreInfoText: {
     fontSize: 16,
+    color:'#3F4A71'
+
   },
   closeButton: {
-    width:'50%',
+    alignItems:'center',
+    width:'25%',
     marginTop: 20,
-    backgroundColor: 'blue',
+    backgroundColor: '#112E93',
     padding: 10,
     borderRadius: 5,
   },
   closeButtonText: {
     color: 'white',
     fontSize: 16,
+
   },
 });
 

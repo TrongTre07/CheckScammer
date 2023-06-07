@@ -31,9 +31,7 @@ const MyProfile = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.me}>Tao Là Linh Xe Ôm</Text>
-      </View>
+
 
       {/* Notification setting */}
       <View style={styles.myProfileContainer}>

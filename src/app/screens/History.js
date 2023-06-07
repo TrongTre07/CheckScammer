@@ -104,7 +104,7 @@ const History = ({ route, navigation }) => {
   };
 
   const renderItem = ({ item, index }) => {
-    const backgroundColor = index % 2 === 0 ? '#ECEAEA' : '#FFFFFF'; // Alternating background colors
+    const backgroundColor = index % 2 === 0 ? '#F5F9FF' : '#ffffff'; // Alternating background colors
 
     const handlePress = () => {
       openModal(item);
@@ -144,12 +144,15 @@ const History = ({ route, navigation }) => {
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
-            flex: 1
+            flex: 1,
+            backgroundColor: '#FAFBFF'
           }}>
           <Pressable style={styles.btnRequiredLogin} onPress={goLogin}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>
-              Bạn cần đăng nhập
-            </Text>
+
+              <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>
+                Bạn cần đăng nhập
+              </Text>
+
           </Pressable>
         </View>
       ) : (
@@ -179,6 +182,7 @@ const History = ({ route, navigation }) => {
               </ImageBackground>
               <View style={styles.container}>
                 <FlatList
+                  showsVerticalScrollIndicator={false}
                   data={dataByUser}
                   renderItem={renderItem}
                   keyExtractor={item => item._id}
@@ -210,8 +214,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height:70
-  },  searchInput: {
+    height: 70
+  }, searchInput: {
     width: '100%',
     height: 40,
     borderWidth: 1,
@@ -223,8 +227,8 @@ const styles = StyleSheet.create({
   },
   btnRequiredLogin: {
     width: '50%',
-    borderRadius: 10,
-    backgroundColor: '#1D9CE2',
+    borderRadius: 6,
+    backgroundColor: '#0055FF',
     height: 50,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -232,7 +236,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginTop: 20,
+    paddingTop: 20,
+    backgroundColor: '#FAFBFF',
     paddingHorizontal: 10,
   },
   contentContainer: {
@@ -257,9 +262,11 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 16,
+    color: '#3F4A71',
     fontWeight: 'bold',
   },
   phoneNumber: {
+    color: '#3F4A71',
     fontSize: 14,
     fontWeight: 'bold',
   },
