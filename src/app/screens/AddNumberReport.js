@@ -7,6 +7,7 @@ import {
   TextInput,
   Pressable,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import instance from '../../axios/AxiosInstance';
@@ -44,16 +45,15 @@ const AddNumberReport = ({navigation}) => {
   };
 
   const {userData} = useMyContext();
-  console.log("Data:: ", userData)
 
   const setOpenDatePicker = () => {
     setOpen(true);
   };
 
-  const user = [{
+  const user = {
     nameuser: userData.username,
     phonenumber: userData.phonenumber,
-  }];
+  };
 
   const images = [];
 
@@ -73,13 +73,13 @@ const AddNumberReport = ({navigation}) => {
       .post(
         'product/add',
         {
-          name,
-          user,
-          phonenumber,
-          banknumber,
-          bankname,
-          detail,
-          images,
+          name: name,
+          user: user,
+          phonenumber: phonenumber,
+          banknumber: banknumber,
+          bankname: bankname,
+          detail: detail,
+          images: [{}],
         },
         config,
       )
@@ -102,6 +102,10 @@ const AddNumberReport = ({navigation}) => {
       type: 'success',
       text1: 'Bạn đã tố cáo thành công!',
     });
+
+    setTimeout(() => {
+      navigation.goBack();
+    }, 2000);
   };
   const toastFail = () => {
     Toast.show({
@@ -134,7 +138,7 @@ const AddNumberReport = ({navigation}) => {
           <View style={styles.phoneNumberContainer}>
             <TextInput
               placeholder="Nhập số điện thoại"
-              onChange={text => setPhoneNumber(text)}
+              onChangeText={text => setPhoneNumber(text)}
               keyboardType="numeric"
             />
             <View style={styles.line} />
@@ -143,7 +147,7 @@ const AddNumberReport = ({navigation}) => {
           <View style={styles.phoneNumberContainer}>
             <TextInput
               placeholder="Nhập số ngân hàng "
-              onChange={text => setBankNumber(text)}
+              onChangeText={text => setBankNumber(text)}
               keyboardType="numeric"
             />
           </View>
@@ -151,7 +155,7 @@ const AddNumberReport = ({navigation}) => {
           <View style={styles.phoneNumberContainer}>
             <TextInput
               placeholder="Nhập tên ngân hàng"
-              onChange={text => setBankName(text)}
+              onChangeText={text => setBankName(text)}
             />
           </View>
           {/* Date*/}
@@ -164,7 +168,7 @@ const AddNumberReport = ({navigation}) => {
           <View style={[styles.phoneNumberContainer]}>
             <TextInput
               placeholder="Nhập tên"
-              onChange={text => setName(text)}
+              onChangeText={text => setName(text)}
             />
           </View>
           {/* Content denounce*/}
@@ -172,7 +176,7 @@ const AddNumberReport = ({navigation}) => {
             <View>
               <TextInput
                 placeholder="Nhập nội dung "
-                onChange={text => setDetail(text)}
+                onChangeText={text => setDetail(text)}
               />
             </View>
           </View>

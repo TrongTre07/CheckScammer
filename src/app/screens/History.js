@@ -1,8 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Image, StyleSheet, FlatList, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  FlatList,
+  Pressable,
+  Button,
+} from 'react-native';
 import PopUpDetails from './PopUpDetails';
+import instance from '../../axios/AxiosInstance';
+import {useMyContext} from '../MyContext';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
-const History = ({route}) => {
+const History = ({route, navigation}) => {
   const listData = [
     {
       id: 1,
@@ -30,6 +41,43 @@ const History = ({route}) => {
     },
   ];
 
+  const [dataByUser, setDataByUser] = useState();
+
+  const {userData} = useMyContext();
+  console.log("USERNAME: ", userData)
+  let idUser;
+  if (userData != undefined) {
+    idUser = userData.username;
+  }
+  useEffect(() => {
+    console.log("ID USER: ", idUser)
+    instance
+      .get(`product/get-by-nameuser/${idUser}`)
+      .then(response => {
+        if (response.data.result == true) {
+          console.log('RES: ', response.data.product);
+          const arrNumber = response.data.product;
+          setDataByUser([...arrNumber].reverse());
+        } else {
+          toastFail();
+        }
+      })
+      .catch(error => {
+        console.log('ERROR: ', error);
+      });
+  }, [idUser]);
+
+  const toastFail = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Có lỗi xảy ra! Thử lại nhé',
+    });
+  };
+
+  const goLogin = () =>{
+    navigation.navigate("UserInformation", {screen: "Login"})
+  }
+
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -51,12 +99,12 @@ const History = ({route}) => {
     return (
       <Pressable onPress={handlePress}>
         <View style={[styles.itemContainer, {backgroundColor}]}>
-          <Image source={{uri: item.image}} style={styles.image} />
+          {/* <Image source={{uri: item.image}} style={styles.images} /> */}
           <View style={styles.textContainer}>
-            <Text style={styles.phoneNumber}>SDT: {item.phoneNumber}</Text>
+            <Text style={styles.phoneNumber}>SDT: {item.phonenumber}</Text>
             <Text style={styles.name}>Tên: {item.name}</Text>
             <Text style={styles.name}>Ngày: {item.date}</Text>
-            <Text style={styles.name}>Trạng thái: {item.status}</Text>
+            <Text style={styles.name}>Trạng thái: {item.status.text}</Text>
           </View>
         </View>
       </Pressable>
@@ -64,25 +112,63 @@ const History = ({route}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={listData}
-        renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
-        contentContainerStyle={styles.contentContainer}
-      />
-      {selectedItem && (
-        <PopUpDetails
-          modalVisible={modalVisible}
-          closeModal={closeModal}
-          selectedItem={selectedItem}
-        />
+    <>
+      {userData == undefined ? (
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flex: 1
+          }}>
+          <Pressable style={styles.btnRequiredLogin} onPress={goLogin}>
+            <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>
+              Bạn cần đăng nhập
+            </Text>
+          </Pressable>
+        </View>
+      ) : (
+        <>
+          {dataByUser != undefined ? (
+            <>
+              <View style={styles.container}>
+                <FlatList
+                  data={dataByUser}
+                  renderItem={renderItem}
+                  keyExtractor={item => item._id}
+                  contentContainerStyle={styles.contentContainer}
+                />
+                {selectedItem && (
+                  <PopUpDetails
+                    modalVisible={modalVisible}
+                    closeModal={closeModal}
+                    selectedItem={selectedItem}
+                  />
+                )}
+                <Toast />
+              </View>
+            </>
+          ) : (
+            <>
+              <Text>Loading</Text>
+            </>
+          )}
+        </>
       )}
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  btnRequiredLogin: {
+    width: '50%',
+    borderRadius: 10,
+    backgroundColor: '#1D9CE2',
+    height: 50,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     marginTop: 20,

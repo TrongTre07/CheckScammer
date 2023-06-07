@@ -9,36 +9,14 @@ import {
   StyleSheet,
   Pressable,
   Image,
+  RefreshControl,
+  ScrollView,
 } from 'react-native';
 import {useMyContext} from '../MyContext';
 import instance from '../../axios/AxiosInstance';
 import Toast from 'react-native-toast-message';
 
 const HomeScreen = ({navigation}) => {
-  //   const [phoneNumbers, setPhoneNumbers] = React.useState([]);
-
-  // navigation = props
-  const data1 = [
-    {
-      id: 1,
-      phoneNumber: '1234567899',
-      owner: 'tao ne',
-      time: '12/23/2023',
-    },
-    {
-      id: 2,
-      phoneNumber: '1234567899',
-      owner: 'tao ne',
-      time: '12/23/2023',
-    },
-    {
-      id: 3,
-      phoneNumber: '1234567899',
-      owner: 'tao ne',
-      time: '12/23/2023',
-    },
-  ];
-
   const {allNumber, setAllNumber} = useMyContext();
 
   const sendId = id => {
@@ -50,7 +28,7 @@ const HomeScreen = ({navigation}) => {
       .get('product/get-all')
       .then(response => {
         if (response.data.result == true) {
-          setAllNumber(response.data.product);
+          setAllNumber([...response.data.product].reverse());
         } else {
           Toast.show({
             type: 'success',
@@ -61,6 +39,34 @@ const HomeScreen = ({navigation}) => {
       .catch(error => {
         console.log('ERROR: ', error);
       });
+  }, []);
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+
+    instance
+      .get('product/get-all')
+      .then(response => {
+        if (response.data.result == true) {
+          const arrNumber = response.data.product;
+          const reverseArr = [...arrNumber].reverse();
+          setAllNumber(reverseArr);
+        } else {
+          Toast.show({
+            type: 'success',
+            text1: 'Lấy dữ liệu thất bại!',
+          });
+        }
+      })
+      .catch(error => {
+        console.log('ERROR: ', error);
+      });
+
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
   }, []);
 
   const convertTime = dateString => {
@@ -104,6 +110,9 @@ const HomeScreen = ({navigation}) => {
               </Pressable>
             </View>
             <FlatList
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
               data={allNumber}
               renderItem={({item}) => (
                 <Pressable onPress={() => sendId(item._id)}>

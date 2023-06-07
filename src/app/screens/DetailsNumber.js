@@ -3,8 +3,8 @@ import React, {useEffect, useState} from 'react';
 import instance from '../../axios/AxiosInstance';
 
 const DetailsNumber = ({route}) => {
-  // const {idItem} = route.params;
-  const idItem = "647a8970603562b4c35373b8"
+  const {idItem} = route.params;
+  
 
   const [dataDetails, setDataDetails] = useState();
 
@@ -26,6 +26,7 @@ const DetailsNumber = ({route}) => {
       .then(response => {
         // console.log('RES: ', response.data);
         if (response.data.result == true) {
+          console.log("DATA ID: ", response.data.product)
           setDataDetails(response.data.product);
         } else {
         }
@@ -98,7 +99,8 @@ const DetailsNumber = ({route}) => {
           </View>
         </>
       ) : (
-        <></>
+        <>
+        <Text>Dang lay du lieu</Text></>
       )}
     </>
   );
