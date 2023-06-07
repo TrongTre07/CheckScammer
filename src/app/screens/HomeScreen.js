@@ -94,17 +94,19 @@ const HomeScreen = ({ navigation }) => {
       <>
         {allNumber ? (
           <>
-
             <ImageBackground
               source={require('../../media/imgBackground/bgHorizontal.png')}
               style={styles.searchBox}
             >
               <View />
-              <TextInput
-                style={styles.searchInput}
-                placeholder="Enter phone number"
-              // Implement the logic to handle user input for searching
-              />
+              <View style={{ position: 'relative' }}>
+                <TextInput
+                  style={styles.searchInput}
+                  placeholder="Enter phone number"
+                // Implement the logic to handle user input for searching
+                />
+                <Image source={require('../../media/iconApp/search.png')}/>
+              </View>
 
               <Pressable onPress={() => goAddReport()}>
                 <Image source={require('../../media/iconApp/report.png')} />
@@ -118,8 +120,10 @@ const HomeScreen = ({ navigation }) => {
               <FlatList
                 style={{
                   marginTop: '7%',
+                  height: '83%'
                 }}
                 data={allNumber}
+                showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
                   <Pressable onPress={() => sendId(item._id)}>
                     <View style={styles.phoneNumberItem}>
