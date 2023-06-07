@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import { View, Text, TextInput, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Image, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
 import instance from '../../axios/AxiosInstance';
 import Toast from 'react-native-toast-message'
 
-const ChangePassword = ({navigation}) => {
+const ChangePassword = ({ navigation }) => {
 
   const [username, setUsername] = useState()
   const [oldpassword, setOldPassword] = useState()
@@ -29,43 +29,50 @@ const ChangePassword = ({navigation}) => {
     });
   };
 
-  const goProfile =() =>{
+  const goProfile = () => {
     navigation.navigate("User")
   }
 
 
   const changePassword = () => {
-    if(confirmPassword == newpassword){
+    if (confirmPassword == newpassword) {
       instance
-      .post('user/change-password', {username, oldpassword, newpassword})
-      .then(response => {
-        console.log('Change DATA: ', response.data);
-        if (response.data.result == true) {
-          // setUserData(response.data.user);
-          // setIsLogged(true);
-          toastSuccess();
-          setTimeout(goProfile, 2000)
-        } else {
-          // setUserData(response.data.user);
-          // setIsLogged(false);
-          toastFail();
-        }
-      })
-      .catch(error => {
-        console.log('ERROR: ', error.message);
-      });
-    }else{
+        .post('user/change-password', { username, oldpassword, newpassword })
+        .then(response => {
+          console.log('Change DATA: ', response.data);
+          if (response.data.result == true) {
+            // setUserData(response.data.user);
+            // setIsLogged(true);
+            toastSuccess();
+            setTimeout(goProfile, 2000)
+          } else {
+            // setUserData(response.data.user);
+            // setIsLogged(false);
+            toastFail();
+          }
+        })
+        .catch(error => {
+          console.log('ERROR: ', error.message);
+        });
+    } else {
       toastConflictPassword()
     }
-    
+
   };
 
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../../media/iconApp/background.jpg")}
+        source={require("../../media/imgBackground/bgVertical.png")}
         style={styles.backgroundImage}
       >
+        <TouchableOpacity 
+          onPress={()=> navigation.goBack()}
+          style={{position: 'absolute', top: 20, left: 20,}}>
+          <Image style={{ resizeMode: 'contain' }} source={require('../../media/iconNavigate/back.png')} />
+
+        </TouchableOpacity>
+
         <Text style={styles.title}>ĐỔI MẬT KHẨU</Text>
 
         <TextInput
@@ -98,9 +105,9 @@ const ChangePassword = ({navigation}) => {
           <Text style={styles.buttonText}>Xác nhận </Text>
         </TouchableOpacity>
 
-      
+
       </ImageBackground>
-      <Toast/>
+      <Toast />
     </View>
   );
 };
@@ -111,28 +118,29 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
+    position: 'relative',
     resizeMode: 'cover',
     justifyContent: 'center',
     alignItems: 'center',
   },
   title: {
-    fontSize: 35,
+    fontSize: 45,
     fontWeight: 'bold',
     marginBottom: 20,
-    color:'white'
+    color: '#113C5D'
   },
   input: {
-    width: 250,
-    height: 40,
+    width: 300,
+    height: 45,
     backgroundColor: 'white',
-    marginBottom: 10,
+    marginVertical: 15,
     padding: 10,
     borderRadius: 5,
   },
   button: {
     width: 250,
     height: 40,
-    backgroundColor: '#3262a8',
+    backgroundColor: '#004880',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
@@ -145,13 +153,13 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: 'column',
-    justifyContent:'center',
-    alignItems:'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 20,
   },
   footerText: {
     marginRight: 5,
-    color:'white'
+    color: 'white'
   },
   footerLink: {
     color: 'white',

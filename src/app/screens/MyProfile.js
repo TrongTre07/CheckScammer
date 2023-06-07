@@ -1,6 +1,6 @@
 // UserInfoScreen.js
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,9 +8,10 @@ import {
   StyleSheet,
   Image,
   Pressable,
+  ImageBackground,
 } from 'react-native';
 
-const MyProfile = ({navigation}) => {
+const MyProfile = ({ navigation }) => {
   const handleLogout = () => {
     // Implement logic to handle user logout
   };
@@ -25,49 +26,54 @@ const MyProfile = ({navigation}) => {
     navigation.navigate('Login');
   };
 
-  const goChangePassword = () =>{
+  const goChangePassword = () => {
     navigation.navigate("ChangePassword")
   }
 
   return (
     <View style={styles.container}>
-
+      <ImageBackground
+        source={require('../../media/imgBackground/bgHorizontal.png')}
+        style={styles.header}>
+        <View style={{ position: 'absolute', right: 10, top: 10 }}>
+          <Text style={{ color: '#fff', fontSize: 15 }}>Sửa</Text>
+        </View>
+        <Image
+          style={{ top: 20, left: 30, resizeMode: 'cover', width: 100, height: 100 }}
+          source={require('../../media/imgBackground/logo.png')} />
+        <View style={{ position: 'absolute', left: 10, bottom: 20 }}>
+          <Text style={{ color: '#fff', fontSize: 22, fontWeight: '600' }}>Trần Anh huy</Text>
+        </View>
+      </ImageBackground>
 
       {/* Notification setting */}
       <View style={styles.myProfileContainer}>
         <Text style={styles.subtitle}>Tên đăng nhập </Text>
         <Text style={styles.subtitle}>MustFapToLive</Text>
       </View>
-      <View style={styles.myProfileContainer}>
-        <Text style={styles.subtitle}>Họ tên </Text>
-        <Text style={styles.subtitle}>MustFapToLive</Text>
-      </View>
 
       {/* Language Setting */}
       <View style={styles.myProfileContainer}>
-        <Text style={styles.subtitle}>Ngày sinh</Text>
-        <Text style={styles.subtitle}>MustFapToLive</Text>
+        <Text style={styles.subtitle}>Số điện thoại</Text>
+        <Text style={styles.subtitle}>0123456789</Text>
 
       </View>
       {/* Language Setting */}
-      <View style={styles.myProfileContainer}>
-        <Text
+      <TouchableOpacity
         onPress={goChangePassword}
-        style={[styles.subtitle, {textDecorationLine:"underline"}]}>Đổi mật khẩu</Text>
-        
-      </View>
+        style={[styles.myProfileContainer,]}>
+        <Text
+          style={[styles.subtitle]}>Đổi mật khẩu</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: '#34cceb',
     width: '100%',
-    height: 50,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: 180,
+    position: 'relative'
   },
   me: {
     fontWeight: 'bold',
@@ -78,7 +84,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: '#FAFBFF',
+    paddingVertical: 10,
     paddingHorizontal: 10,
+    borderBottomColor: '#062C77',
+    borderWidth: 0.2
     // borderColor: 'black',
     // borderWidth: 0.19
   },
@@ -88,6 +98,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: '#FAFBFF',
+
   },
 
   title: {
@@ -98,12 +110,12 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   subtitle: {
-    backgroundColor: '#F8F8F8',
     fontSize: 20,
     fontWeight: 'bold',
     padding: 10,
+    color: '#3F4A71',
     marginBottom: 2,
-    
+
   },
 });
 

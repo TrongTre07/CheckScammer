@@ -1,9 +1,9 @@
-import {StyleSheet, Text, View, Image, Flatlist} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import { StyleSheet, Text, View, Image, Flatlist } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import instance from '../../axios/AxiosInstance';
 
-const DetailsNumber = ({route}) => {
-  const {idItem} = route.params;
+const DetailsNumber = ({ route }) => {
+  const { idItem } = route.params;
 
   const [dataDetails, setDataDetails] = useState();
 
@@ -38,7 +38,7 @@ const DetailsNumber = ({route}) => {
       {dataDetails ? (
         <>
           <View style={styles.container}>
-            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
               {dataDetails.images[0].urlimage != undefined ? (
                 <Image
                   style={styles.image}
@@ -59,23 +59,24 @@ const DetailsNumber = ({route}) => {
               {/* phoneNumber */}
               <View style={styles.phoneNumberContainer}>
                 <Text style={styles.text}>SDT: </Text>
-                <Text style={styles.text}>{dataDetails.phonenumber}</Text>
+                <Text style={styles.textResult}>{dataDetails.phonenumber}</Text>
                 <View style={styles.line} />
               </View>
               {/* Bank */}
               <View style={styles.phoneNumberContainer}>
                 <Text style={styles.text}>STK: </Text>
-                <Text style={styles.text}>{dataDetails.banknumber}</Text>
+                <Text style={styles.textResult}>{dataDetails.banknumber}</Text>
               </View>
               {/* Bank Name*/}
               <View style={styles.phoneNumberContainer}>
                 <Text style={styles.text}>NH: </Text>
-                <Text style={styles.text}>{dataDetails.bankname}</Text>
+                <Text style={styles.textResult}>{dataDetails.bankname}</Text>
               </View>
               {/* Date*/}
               <View style={styles.phoneNumberContainer}>
-                <Text style={styles.text}>
-                  Ngày: {convertTime(dataDetails.date)}
+                <Text style={styles.text}>Ngày: </Text>
+                <Text style={styles.textResult}>
+                  {convertTime(dataDetails.date)}
                 </Text>
                 {/* <Text style={styles.text}>{dataDetails.bankname}</Text> */}
               </View>
@@ -83,13 +84,13 @@ const DetailsNumber = ({route}) => {
               <View
                 style={[
                   styles.phoneNumberContainer,
-                  {borderBottomColor: 'white'},
+
                 ]}>
                 <Text style={styles.text}>Tên: </Text>
-                <Text style={styles.text}>{dataDetails.name}</Text>
+                <Text style={styles.textResult}>{dataDetails.name}</Text>
               </View>
               {/* Content denounce*/}
-              <View style={styles.denounceBox}>
+              <View style={[styles.denounceBox,]}>
                 <View>
                   <Text style={styles.text}>Nội dung:</Text>
                   <Text style={styles.textDenounce}>{dataDetails.detail}</Text>
@@ -120,22 +121,30 @@ const styles = StyleSheet.create({
   textDenounce: {
     fontSize: 16,
     lineHeight: 24,
+    color: '#3F4A71'
+
   },
   denounceBox: {
-    borderColor: 'black',
-    borderBottomWidth: 0.5,
-
+    borderColor: '#0E2470',
+    borderBottomWidth: 0.2,
     width: '100%',
     height: 150,
   },
   line: {
     height: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#0E2470',
+  },
+  textResult: {
+    fontSize: 18,
+    fontWeight: '400',
+    color: '#3F4A71',
+
   },
   text: {
     fontSize: 18,
-    fontWeight: 'bold',
-    fontWeight: '900',
+    fontWeight: '700',
+    color: '#3F4A71',
+
   },
   detailsContainer: {
     padding: 20,
@@ -149,10 +158,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderBottomWidth: 0.2,
-    borderBottomColor: 'black',
+    borderBottomColor: '#0E2470',
     height: 50,
   },
   container: {
     flex: 1,
+    backgroundColor: '#FAFBFF'
   },
 });

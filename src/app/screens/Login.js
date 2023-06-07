@@ -1,25 +1,25 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   ImageBackground,
-  StyleSheet,
+  StyleSheet, Image
 } from 'react-native';
 import instance from '../../axios/AxiosInstance';
-import {useMyContext} from '../MyContext';
-import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import { useMyContext } from '../MyContext';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
   const [username, setUsername] = useState('thaihoaaa');
   const [password, setPassword] = useState('123');
-  const {setUserData, setIsLogged} = useMyContext();
+  const { setUserData, setIsLogged } = useMyContext();
 
   const goRegister = () => {
     navigation.navigate('Register');
   };
-  const goForgotPassword = () => {};
+  const goForgotPassword = () => { };
 
   const toastSuccess = () => {
     Toast.show({
@@ -33,13 +33,13 @@ const Login = ({navigation}) => {
       text1: 'Đăng nhập thất bại!',
     });
   };
-  const goHome = ()=>{
+  const goHome = () => {
     navigation.navigate("Homepage")
   }
 
   const login = () => {
     instance
-      .post('user/login', {username, password})
+      .post('user/login', { username, password })
       .then(response => {
         console.log('LOGIN DATA: ', response.data);
         if (response.data.result == true) {
@@ -59,80 +59,88 @@ const Login = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require('../../media/iconApp/background.jpg')}
-        style={styles.backgroundImage}>
-        <Text style={styles.title}>ĐĂNG NHẬP </Text>
+    <ImageBackground
+      source={require('../../media/imgBackground/bgVertical.png')}
+      style={[styles.backgroundImage, styles.container]}>
 
-        <TextInput
-          style={styles.input}
-          onChangeText={text => setUsername(text)}
-          placeholder="Tên đăng nhập"
-          defaultValue="thaihoaaa"
-        />
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={{ position: 'absolute', top: 20, left: 20, }}>
+        <Image style={{ resizeMode: 'contain' }} source={require('../../media/iconNavigate/back.png')} />
 
-        <TextInput
-          style={styles.input}
-          onChangeText={text => setPassword(text)}
-          placeholder="Mật khẩu"
-          secureTextEntry
-          defaultValue="123"
-        />
+      </TouchableOpacity>
+      <Text style={styles.title}>ĐĂNG NHẬP </Text>
 
-        <TouchableOpacity style={styles.button} onPress={login}>
-          <Text style={styles.buttonText}>Đăng nhập </Text>
-        </TouchableOpacity>
+      <TextInput
+        style={styles.input}
+        onChangeText={text => setUsername(text)}
+        placeholder="Tên đăng nhập"
+        defaultValue="thaihoaaa"
+      />
 
-        <View style={styles.footer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.footerText}>Bạn không có tài khoản?</Text>
-            <TouchableOpacity onPress={goRegister}>
-              <Text style={styles.footerLink}>Đăng ký </Text>
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity>
-            <Text style={styles.footerLink}>Quên mật khẩu </Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={text => setPassword(text)}
+        placeholder="Mật khẩu"
+        secureTextEntry
+        defaultValue="123"
+      />
+
+      <TouchableOpacity style={styles.button} onPress={login}>
+        <Text style={styles.buttonText}>Đăng nhập </Text>
+      </TouchableOpacity>
+
+      <View style={styles.footer}>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.footerText}>Bạn không có tài khoản?</Text>
+          <TouchableOpacity onPress={goRegister}>
+            <Text style={styles.footerLink}>Đăng ký </Text>
           </TouchableOpacity>
         </View>
-      </ImageBackground>
+        <TouchableOpacity>
+          <Text style={styles.footerLink}>Quên mật khẩu </Text>
+        </TouchableOpacity>
+      </View>
       <Toast />
-    </View>
+    </ImageBackground>
+
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // height:'100%'
+    position: 'relative'
   },
   backgroundImage: {
-    flex: 1,
     resizeMode: 'cover',
     justifyContent: 'center',
     alignItems: 'center',
   },
   title: {
-    fontSize: 35,
+    // marginTop:'30%',
+    fontSize: 45,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: 'white',
+    color: '#113C5D',
   },
   input: {
-    width: 250,
-    height: 40,
+    width: 300,
+    height: 45,
     backgroundColor: 'white',
-    marginBottom: 10,
+    marginVertical: 15,
     padding: 10,
     borderRadius: 5,
   },
   button: {
-    width: 250,
+    width: 150,
     height: 40,
-    backgroundColor: '#3262a8',
+    backgroundColor: '#004880',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
-    borderRadius: 5,
+    marginTop: 15,
+    borderRadius: 10,
   },
   buttonText: {
     color: 'white',
@@ -147,10 +155,12 @@ const styles = StyleSheet.create({
   },
   footerText: {
     marginRight: 5,
-    color: 'white',
+    fontWeight: 500,
+    color: '#000000',
   },
   footerLink: {
-    color: 'white',
+    fontWeight: 500,
+    color: '#000000',
     textDecorationLine: 'underline',
   },
 });

@@ -26,6 +26,10 @@ const AppNavigation = () => {
     <StackWelcome.Navigator screenOptions={{headerShown: false}}>
       <StackWelcome.Screen name="Welcome" component={Welcome} />
       <StackWelcome.Screen name="AppNavigation" component={HomeNavigation} />
+      <StackWelcome.Screen name="Login" component={Login} />
+      <StackWelcome.Screen name="Register" component={Register} />
+      <StackWelcome.Screen name="ChangePassword" component={ChangePassword} />
+
     </StackWelcome.Navigator>
   );
 };
@@ -49,7 +53,7 @@ const HomeNavigation = () => {
             />
           ),
           tabBarLabel: ({focused, color}) => (
-            <Text style={{color: focused ? 'blue' : 'grey'}}>Home</Text>
+            <Text style={{color: focused ? '#447EF2' : 'grey'}}>Home</Text>
           ),
           headerShown: false,
         }}
@@ -69,7 +73,7 @@ const HomeNavigation = () => {
             />
           ),
           tabBarLabel: ({focused, color}) => (
-            <Text style={{color: focused ? 'blue' : 'grey'}}>Lịch sử</Text>
+            <Text style={{color: focused ? '#447EF2' : 'grey'}}>Lịch sử</Text>
           ),
           headerShown: false,
         }}
@@ -89,7 +93,7 @@ const HomeNavigation = () => {
             />
           ),
           tabBarLabel: ({focused, color}) => (
-            <Text style={{color: focused ? 'blue' : 'grey'}}>Tài khoản</Text>
+            <Text style={{color: focused ? '#447EF2' : 'grey'}}>Tài khoản</Text>
           ),
           headerShown: false,
           // headerTitleAlign: 'center',
@@ -117,9 +121,6 @@ const UserInformation = () => {
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="User" component={UserInfo} />
       <Stack.Screen name="MyProfile" component={MyProfile}/>
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Register" component={Register} />
-      <Stack.Screen name="ChangePassword" component={ChangePassword} />
     </Stack.Navigator>
   );
 };

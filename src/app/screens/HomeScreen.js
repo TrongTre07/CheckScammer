@@ -16,6 +16,7 @@ import {
 import { useMyContext } from '../MyContext';
 import instance from '../../axios/AxiosInstance';
 import Toast from 'react-native-toast-message';
+import Swiper from 'react-native-swiper';
 
 const HomeScreen = ({ navigation }) => {
   const { allNumber, setAllNumber } = useMyContext();
@@ -105,15 +106,15 @@ const HomeScreen = ({ navigation }) => {
               style={styles.searchBox}
             >
               <View />
-              <View style={{ position: 'relative',width:'65%',height:40 }}>
+              <View style={{ position: 'relative', width: '65%', height: 40 }}>
                 <TextInput
                   style={styles.searchInput}
                   placeholder="Enter phone number"
                 // Implement the logic to handle user input for searching
                 />
                 <Image
-                style={{ position: 'absolute',top:'33%',left:'4%'}}
-                source={require('../../media/iconApp/search.png')} />
+                  style={{ position: 'absolute', top: '33%', left: '4%' }}
+                  source={require('../../media/iconApp/search.png')} />
               </View>
 
               <Pressable onPress={() => goAddReport()}>
@@ -121,6 +122,52 @@ const HomeScreen = ({ navigation }) => {
               </Pressable>
               <View />
             </ImageBackground>
+            <View style={{ height: 200 }}>
+              <Swiper
+                showsButtons={false}
+                autoplayTimeout={4}
+                loop={true}
+                autoplay={true}
+                showsPagination={false}
+                >
+                <View
+                  key={0}
+                  style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}
+                >
+                  <Image
+                    style={{ width: '100%', height: '100%'}}
+                    source={require('../../media/imgBackground/checkscammer.png')}
+                  />
+                </View>
+                <View
+                  key={1}
+                  style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}
+                >
+                  <Image
+                    style={{ width: '100%', height: '100%'}}
+                    source={require('../../media/imgBackground/for.png')}
+                  />
+                </View>
+                <View
+                  key={1}
+                  style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}
+                >
+                  <Image
+                    style={{ width: '100%', height: '100%'}}
+                    source={require('../../media/imgBackground/together.png')}
+                  />
+                </View>
+                <View
+                  key={1}
+                  style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}
+                >
+                  <Image
+                    style={{ width: '100%', height: '100%'}}
+                    source={require('../../media/imgBackground/hello.png')}
+                  />
+                </View>
+              </Swiper>
+            </View>
             <View style={{
               paddingHorizontal: 20,
 
@@ -128,7 +175,7 @@ const HomeScreen = ({ navigation }) => {
               <FlatList
                 style={{
                   marginTop: '7%',
-                  height: '83%'
+                  height: '57%'
                 }}
                 showsVerticalScrollIndicator={false}
                 refreshControl={
@@ -175,7 +222,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height:70
+    height: 70
   },
   totalScammedContainer: {
     flexDirection: 'row',

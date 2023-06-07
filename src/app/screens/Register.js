@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
+import { View, Text,Image, TextInput, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
 
 const Register = ({navigation}) => {
 
@@ -10,9 +10,15 @@ navigation.goBack()
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../../media/iconApp/background.jpg")}
+        source={require("../../media/imgBackground/bgVertical.png")}
         style={styles.backgroundImage}
       >
+        {/* <TouchableOpacity 
+          onPress={()=> navigation.goBack()}
+          style={{position: 'absolute', top: 20, left: 20,}}>
+          <Image style={{ resizeMode: 'contain' }} source={require('../../media/iconNavigate/back.png')} />
+
+        </TouchableOpacity> */}
         <Text style={styles.title}>ĐĂNG KÝ</Text>
 
         <TextInput
@@ -64,28 +70,29 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
+    position:'relative',
     resizeMode: 'cover',
     justifyContent: 'center',
     alignItems: 'center',
   },
   title: {
-    fontSize: 35,
+    fontSize: 45,
     fontWeight: 'bold',
     marginBottom: 20,
-    color:'white'
+    color: '#113C5D',
   },
   input: {
-    width: 250,
-    height: 40,
+    width: 300,
+    height: 45,
     backgroundColor: 'white',
-    marginBottom: 10,
+    marginVertical:10,
     padding: 10,
     borderRadius: 5,
   },
   button: {
     width: 250,
     height: 40,
-    backgroundColor: '#3262a8',
+    backgroundColor: '#004880',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
@@ -104,10 +111,12 @@ const styles = StyleSheet.create({
   },
   footerText: {
     marginRight: 5,
-    color:'white'
+    fontWeight:'500',
+    color:'#000'
   },
   footerLink: {
-    color: 'white',
+    fontWeight:'500',
+    color: '#000',
     textDecorationLine: 'underline',
   },
 });
