@@ -11,14 +11,14 @@ import {
 const PopUpDetails = ({modalVisible, openModal, closeModal, selectedItem}) => {
   // ({ modalVisible, openModal, closeModal, phoneNumber, name, bankNumber, bankName, date, status, moreInfo })
   const {
-    image,
+    images,
     name,
-    phoneNumber,
-    bankName,
-    bankNumber,
+    phonenumber,
+    bankname,
+    banknumber,
     date,
     status,
-    moreInfo,
+    detail,
   } = selectedItem;
   console.log('DATA: ', selectedItem);
   const closePopup = () => {
@@ -35,26 +35,26 @@ const PopUpDetails = ({modalVisible, openModal, closeModal, selectedItem}) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
-              <Image style={styles.image} source={{uri: image}} />
+              {/* <Image style={styles.image} source={{uri: image}} /> */}
               <View>
-                <Text style={styles.modalHeader}>Scam Information</Text>
-                <Text style={styles.modalText}>PhoneNumber: {phoneNumber}</Text>
-                <Text style={styles.modalText}>Name: {name}</Text>
-                <Text style={styles.modalText}>Bank Number: {bankNumber}</Text>
-                <Text style={styles.modalText}>Bank Name: {bankName}</Text>
-                <Text style={styles.modalText}>Date: {date}</Text>
-                <Text style={styles.modalText}>Status: {status}</Text>
+                <Text style={styles.modalHeader}>Thông tin tố cáo</Text>
+                <Text style={styles.modalText}>SDT: {phonenumber}</Text>
+                <Text style={styles.modalText}>Tên: {name}</Text>
+                <Text style={styles.modalText}>Số NH: {banknumber}</Text>
+                <Text style={styles.modalText}>Tên NH: {bankname}</Text>
+                <Text style={styles.modalText}>Ngày: {date}</Text>
+                <Text style={styles.modalText}>Trạng thái: {status.text}</Text>
               </View>
             </View>
             <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
               <View style={styles.moreInfoBox}>
                 <Text style={styles.moreInfoText}>
-                  More information: {moreInfo}
+                  Chi tiết: {detail}
                 </Text>
               </View>
 
               <TouchableOpacity onPress={closePopup} style={styles.closeButton}>
-                <Text style={styles.closeButtonText}>Close Modal</Text>
+                <Text style={styles.closeButtonText}>Đóng</Text>
               </TouchableOpacity>
             </View>
           </View>

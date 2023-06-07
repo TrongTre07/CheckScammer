@@ -37,7 +37,7 @@ const HomeScreen = ({navigation}) => {
         }
       })
       .catch(error => {
-        console.log('ERROR: ', error);
+        console.log('ERRORs: ', error);
       });
   }, []);
 

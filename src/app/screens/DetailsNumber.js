@@ -4,19 +4,18 @@ import instance from '../../axios/AxiosInstance';
 
 const DetailsNumber = ({route}) => {
   const {idItem} = route.params;
-  
 
   const [dataDetails, setDataDetails] = useState();
 
   const convertTime = dateString => {
     const date = new Date(dateString);
-  
+
     const year = date.getFullYear();
     const month = date.getMonth() + 1; // Note: months are zero-based
     const day = date.getDate();
-  
+
     const dateRender = `${day}-${month}-${year}`;
-  
+
     return dateRender;
   };
 
@@ -26,7 +25,6 @@ const DetailsNumber = ({route}) => {
       .then(response => {
         // console.log('RES: ', response.data);
         if (response.data.result == true) {
-          console.log("DATA ID: ", response.data.product)
           setDataDetails(response.data.product);
         } else {
         }
@@ -40,13 +38,20 @@ const DetailsNumber = ({route}) => {
       {dataDetails ? (
         <>
           <View style={styles.container}>
-            <View>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: 'https://fastly.picsum.photos/id/413/200/300.jpg?hmac=bfSGClFpOROonzp5IIDI-aVAQMyyCC9lSOp184Tqu4M',
-                }}
-              />
+            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+              {dataDetails.images[0].urlimage != undefined ? (
+                <Image
+                  style={styles.image}
+                  source={{
+                    uri: dataDetails.images[0].urlimage,
+                  }}
+                />
+              ) : (
+                <Image
+                  style={styles.image}
+                  source={require('../../media/iconApp/panda.png')}
+                />
+              )}
             </View>
 
             {/* Details Container */}
@@ -69,7 +74,9 @@ const DetailsNumber = ({route}) => {
               </View>
               {/* Date*/}
               <View style={styles.phoneNumberContainer}>
-                <Text style={styles.text}>Ngày: {convertTime(dataDetails.date)}</Text>
+                <Text style={styles.text}>
+                  Ngày: {convertTime(dataDetails.date)}
+                </Text>
                 {/* <Text style={styles.text}>{dataDetails.bankname}</Text> */}
               </View>
               {/* Name*/}
@@ -100,7 +107,8 @@ const DetailsNumber = ({route}) => {
         </>
       ) : (
         <>
-        <Text>Dang lay du lieu</Text></>
+          <Text>Dang lay du lieu</Text>
+        </>
       )}
     </>
   );
@@ -133,8 +141,8 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   image: {
-    width: '100%',
-    height: 200,
+    width: '50%',
+    height: 250,
   },
   phoneNumberContainer: {
     flexDirection: 'row',

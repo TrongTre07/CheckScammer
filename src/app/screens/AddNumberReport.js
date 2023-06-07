@@ -54,12 +54,18 @@ const AddNumberReport = ({navigation}) => {
     nameuser: userData.username,
     phonenumber: userData.phonenumber,
   };
+  const phoneNumberPattern = /^\d{10,11}$/
+  const bankNumberPattern = /^\d{9,14}$/
 
   const images = [];
 
   const goReport = () => {
     if (phonenumber == null || name == null) {
       toastRequireMore();
+      return;
+    }
+    if (!phoneNumberPattern.test(phonenumber) || !bankNumberPattern.test(banknumber)) {
+      toastRequirePhone();
       return;
     }
 
@@ -117,6 +123,12 @@ const AddNumberReport = ({navigation}) => {
     Toast.show({
       type: 'success',
       text1: 'Bạn cần nhập thông tin!',
+    });
+  };
+  const toastRequirePhone = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Số điện thoại hoặc số ngân hàng không đúng!',
     });
   };
 
@@ -192,7 +204,7 @@ const AddNumberReport = ({navigation}) => {
           <Pressable
             style={[styles.button, {backgroundColor: '#EE6A40'}]}
             onPress={goReport}>
-            <Text style={styles.textButton}>Tô cáo </Text>
+            <Text style={styles.textButton}>Tố cáo </Text>
           </Pressable>
         </View>
 

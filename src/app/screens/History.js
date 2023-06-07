@@ -44,7 +44,6 @@ const History = ({route, navigation}) => {
   const [dataByUser, setDataByUser] = useState();
 
   const {userData} = useMyContext();
-  console.log("USERNAME: ", userData)
   let idUser;
   if (userData != undefined) {
     idUser = userData.username;
@@ -90,6 +89,18 @@ const History = ({route, navigation}) => {
     setModalVisible(false);
   };
 
+  const convertTime = dateString => {
+    const date = new Date(dateString);
+  
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Note: months are zero-based
+    const day = date.getDate();
+  
+    const dateRender = `${day}-${month}-${year}`;
+  
+    return dateRender;
+  };
+
   const renderItem = ({item, index}) => {
     const backgroundColor = index % 2 === 0 ? '#ECEAEA' : '#FFFFFF'; // Alternating background colors
 
@@ -103,7 +114,7 @@ const History = ({route, navigation}) => {
           <View style={styles.textContainer}>
             <Text style={styles.phoneNumber}>SDT: {item.phonenumber}</Text>
             <Text style={styles.name}>Tên: {item.name}</Text>
-            <Text style={styles.name}>Ngày: {item.date}</Text>
+            <Text style={styles.name}>Ngày: {convertTime(item.date)}</Text>
             <Text style={styles.name}>Trạng thái: {item.status.text}</Text>
           </View>
         </View>
