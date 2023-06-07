@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,13 +7,15 @@ import {
   FlatList,
   Pressable,
   Button,
+  TextInput,
+  ImageBackground
 } from 'react-native';
 import PopUpDetails from './PopUpDetails';
 import instance from '../../axios/AxiosInstance';
-import {useMyContext} from '../MyContext';
-import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import { useMyContext } from '../MyContext';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
-const History = ({route, navigation}) => {
+const History = ({ route, navigation }) => {
   const listData = [
     {
       id: 1,
@@ -43,7 +45,7 @@ const History = ({route, navigation}) => {
 
   const [dataByUser, setDataByUser] = useState();
 
-  const {userData} = useMyContext();
+  const { userData } = useMyContext();
   let idUser;
   if (userData != undefined) {
     idUser = userData.username;
@@ -73,8 +75,8 @@ const History = ({route, navigation}) => {
     });
   };
 
-  const goLogin = () =>{
-    navigation.navigate("UserInformation", {screen: "Login"})
+  const goLogin = () => {
+    navigation.navigate("UserInformation", { screen: "Login" })
   }
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -91,25 +93,26 @@ const History = ({route, navigation}) => {
 
   const convertTime = dateString => {
     const date = new Date(dateString);
-  
+
     const year = date.getFullYear();
     const month = date.getMonth() + 1; // Note: months are zero-based
     const day = date.getDate();
-  
+
     const dateRender = `${day}-${month}-${year}`;
-  
+
     return dateRender;
   };
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     const backgroundColor = index % 2 === 0 ? '#ECEAEA' : '#FFFFFF'; // Alternating background colors
 
     const handlePress = () => {
       openModal(item);
     };
     return (
+
       <Pressable onPress={handlePress}>
-        <View style={[styles.itemContainer, {backgroundColor}]}>
+        <View style={[styles.itemContainer, { backgroundColor }]}>
           {/* <Image source={{uri: item.image}} style={styles.images} /> */}
           <View style={styles.textContainer}>
             <Text style={styles.phoneNumber}>SDT: {item.phonenumber}</Text>
@@ -122,6 +125,17 @@ const History = ({route, navigation}) => {
     );
   };
 
+  const goAddReport = () => {
+    if (userData == undefined) {
+      Toast.show({
+        type: 'success',
+        text1: 'Bạn cần đăng nhập!',
+      });
+      return;
+    }
+
+    navigation.navigate('AddReport');
+  };
   return (
     <>
       {userData == undefined ? (
@@ -133,7 +147,7 @@ const History = ({route, navigation}) => {
             flex: 1
           }}>
           <Pressable style={styles.btnRequiredLogin} onPress={goLogin}>
-            <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>
+            <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>
               Bạn cần đăng nhập
             </Text>
           </Pressable>
@@ -142,6 +156,27 @@ const History = ({route, navigation}) => {
         <>
           {dataByUser != undefined ? (
             <>
+              <ImageBackground
+                source={require('../../media/imgBackground/bgHorizontal.png')}
+                style={styles.searchBox}
+              >
+                <View />
+                <View style={{ position: 'relative', width: '65%', height: 40 }}>
+                  <TextInput
+                    style={styles.searchInput}
+                    placeholder="Enter phone number"
+                  // Implement the logic to handle user input for searching
+                  />
+                  <Image
+                    style={{ position: 'absolute', top: '33%', left: '4%' }}
+                    source={require('../../media/iconApp/search.png')} />
+                </View>
+
+                <Pressable onPress={() => goAddReport()}>
+                  <Image source={require('../../media/iconApp/report.png')} />
+                </Pressable>
+                <View />
+              </ImageBackground>
               <View style={styles.container}>
                 <FlatList
                   data={dataByUser}
@@ -171,6 +206,21 @@ const History = ({route, navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  searchBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height:70
+  },  searchInput: {
+    width: '100%',
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#3F4A71',
+    borderRadius: 5,
+    marginBottom: 10,
+    paddingHorizontal: 40,
+    backgroundColor: '#FFFFFF',
+  },
   btnRequiredLogin: {
     width: '50%',
     borderRadius: 10,

@@ -105,13 +105,15 @@ const HomeScreen = ({ navigation }) => {
               style={styles.searchBox}
             >
               <View />
-              <View style={{ position: 'relative' }}>
+              <View style={{ position: 'relative',width:'65%',height:40 }}>
                 <TextInput
                   style={styles.searchInput}
                   placeholder="Enter phone number"
                 // Implement the logic to handle user input for searching
                 />
-                <Image source={require('../../media/iconApp/search.png')} />
+                <Image
+                style={{ position: 'absolute',top:'33%',left:'4%'}}
+                source={require('../../media/iconApp/search.png')} />
               </View>
 
               <Pressable onPress={() => goAddReport()}>
@@ -121,35 +123,41 @@ const HomeScreen = ({ navigation }) => {
             </ImageBackground>
             <View style={{
               paddingHorizontal: 20,
+
             }}>
-            </View>
-            <FlatList
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-              data={allNumber}
-              renderItem={({ item }) => (
-                <Pressable onPress={() => sendId(item._id)}>
-                  <View style={styles.phoneNumberItem}>
-                    <Text style={styles.phoneNumberText}>
-                      {item.phonenumber}
-                    </Text>
-                    <View style={styles.nameAndDate}>
-                      <Text style={styles.ownerText}>{item.name}</Text>
-                      <Text style={styles.ownerText}>
-                        {convertTime(item.date)}
+              <FlatList
+                style={{
+                  marginTop: '7%',
+                  height: '83%'
+                }}
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                  <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+                data={allNumber}
+                renderItem={({ item }) => (
+                  <Pressable onPress={() => sendId(item._id)}>
+                    <View style={styles.phoneNumberItem}>
+                      <Text style={styles.phoneNumberText}>
+                        {item.phonenumber}
                       </Text>
+                      <View style={styles.nameAndDate}>
+                        <Text style={styles.ownerText}>{item.name}</Text>
+                        <Text style={styles.ownerText}>
+                          {convertTime(item.date)}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
-                </Pressable>
-              )}
-              keyExtractor={item => item._id}
-            // Implement the logic to fetch and display the phone numbers and their owners
-            />
-            <View style={styles.totalScammedContainer}>
-              <Text style={styles.totalScammedText}>
-                Tổng số điện thoại Scam: {allNumber.length}
-              </Text>
+                  </Pressable>
+                )}
+                keyExtractor={item => item._id}
+              // Implement the logic to fetch and display the phone numbers and their owners
+              />
+              <View style={styles.totalScammedContainer}>
+                <Text style={styles.totalScammedText}>
+                  Tổng số điện thoại Scam: {allNumber.length}
+                </Text>
+              </View>
             </View>
           </>
         ) : (
@@ -167,6 +175,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    height:70
   },
   totalScammedContainer: {
     flexDirection: 'row',
@@ -180,17 +189,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F5F5',
-    paddingHorizontal: 20,
-    paddingTop: 20,
   },
   searchInput: {
-    width: '90%',
+    width: '100%',
     height: 40,
     borderWidth: 1,
-    borderColor: '#CCCCCC',
-    borderRadius: 8,
+    borderColor: '#3F4A71',
+    borderRadius: 5,
     marginBottom: 10,
-    paddingHorizontal: 10,
+    paddingHorizontal: 40,
     backgroundColor: '#FFFFFF',
   },
   phoneNumberItem: {
@@ -203,7 +210,7 @@ const styles = StyleSheet.create({
   phoneNumberText: {
     fontWeight: 'bold',
     fontSize: 20,
-    color:'#3F4A71'
+    color: '#3F4A71'
   },
   ownerText: {
     color: '#3F4A71',
