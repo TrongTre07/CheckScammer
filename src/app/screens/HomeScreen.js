@@ -1,6 +1,6 @@
 // HomeScreen.js
 
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   TextInput,
@@ -11,16 +11,17 @@ import {
   Image,
   RefreshControl,
   ScrollView,
+  ImageBackground
 } from 'react-native';
-import {useMyContext} from '../MyContext';
+import { useMyContext } from '../MyContext';
 import instance from '../../axios/AxiosInstance';
 import Toast from 'react-native-toast-message';
 
-const HomeScreen = ({navigation}) => {
-  const {allNumber, setAllNumber} = useMyContext();
+const HomeScreen = ({ navigation }) => {
+  const { allNumber, setAllNumber } = useMyContext();
 
   const sendId = id => {
-    navigation.navigate('Details', {idItem: id});
+    navigation.navigate('Details', { idItem: id });
   };
 
   useEffect(() => {
@@ -81,7 +82,7 @@ const HomeScreen = ({navigation}) => {
     return dateRender;
   };
 
-  const {userData} = useMyContext();
+  const { userData } = useMyContext();
   const goAddReport = () => {
     if (userData == undefined) {
       Toast.show({
@@ -99,22 +100,35 @@ const HomeScreen = ({navigation}) => {
       <>
         {allNumber ? (
           <>
-            <View style={styles.searchBox}>
-              <TextInput
-                style={styles.searchInput}
-                placeholder="Enter phone number"
+            <ImageBackground
+              source={require('../../media/imgBackground/bgHorizontal.png')}
+              style={styles.searchBox}
+            >
+              <View />
+              <View style={{ position: 'relative' }}>
+                <TextInput
+                  style={styles.searchInput}
+                  placeholder="Enter phone number"
                 // Implement the logic to handle user input for searching
-              />
+                />
+                <Image source={require('../../media/iconApp/search.png')} />
+              </View>
+
               <Pressable onPress={() => goAddReport()}>
                 <Image source={require('../../media/iconApp/report.png')} />
               </Pressable>
+              <View />
+            </ImageBackground>
+            <View style={{
+              paddingHorizontal: 20,
+            }}>
             </View>
             <FlatList
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
               data={allNumber}
-              renderItem={({item}) => (
+              renderItem={({ item }) => (
                 <Pressable onPress={() => sendId(item._id)}>
                   <View style={styles.phoneNumberItem}>
                     <Text style={styles.phoneNumberText}>
@@ -130,7 +144,7 @@ const HomeScreen = ({navigation}) => {
                 </Pressable>
               )}
               keyExtractor={item => item._id}
-              // Implement the logic to fetch and display the phone numbers and their owners
+            // Implement the logic to fetch and display the phone numbers and their owners
             />
             <View style={styles.totalScammedContainer}>
               <Text style={styles.totalScammedText}>
@@ -189,9 +203,10 @@ const styles = StyleSheet.create({
   phoneNumberText: {
     fontWeight: 'bold',
     fontSize: 20,
+    color:'#3F4A71'
   },
   ownerText: {
-    color: '#888888',
+    color: '#3F4A71',
     fontWeight: 'bold',
     fontSize: 16,
   },
@@ -199,7 +214,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 10,
     alignSelf: 'flex-end',
-    color: '#888888',
+    color: '#3F4A71',
   },
 });
 
