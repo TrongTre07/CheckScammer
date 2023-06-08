@@ -1,6 +1,6 @@
 // HomeScreen.js
 
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   TextInput,
@@ -11,18 +11,21 @@ import {
   Image,
   RefreshControl,
   ScrollView,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
-import { useMyContext } from '../MyContext';
+import {useMyContext} from '../MyContext';
 import instance from '../../axios/AxiosInstance';
 import Toast from 'react-native-toast-message';
 import Swiper from 'react-native-swiper';
 
-const HomeScreen = ({ navigation }) => {
-  const { allNumber, setAllNumber } = useMyContext();
+const HomeScreen = ({navigation}) => {
+  const {allNumber, setAllNumber} = useMyContext();
+
+  const [findNumber, setFindNumber] = useState();
+  const [originalData, setOriginalData] = useState();
 
   const sendId = id => {
-    navigation.navigate('Details', { idItem: id });
+    navigation.navigate('Details', {idItem: id});
   };
 
   useEffect(() => {
@@ -83,7 +86,7 @@ const HomeScreen = ({ navigation }) => {
     return dateRender;
   };
 
-  const { userData } = useMyContext();
+  const {userData} = useMyContext();
   const goAddReport = () => {
     if (userData == undefined) {
       Toast.show({
@@ -95,6 +98,28 @@ const HomeScreen = ({ navigation }) => {
 
     navigation.navigate('AddReport');
   };
+  // Example search text
+  const filteredArray = [];
+
+  const filteredData = searchText => {
+    if (searchText == '') {
+      
+      setAllNumber(originalData);
+    }
+
+    allNumber.forEach(obj => {
+      // Check if any of the fields (banknumber, phonenumber, name) contain the search text
+      if (
+        obj.banknumber.includes(searchText) ||
+        obj.phonenumber.includes(searchText) ||
+        obj.name.includes(searchText)
+      ) {
+        filteredArray.push(obj);
+      }
+    });
+    setOriginalData(allNumber);
+    setAllNumber(filteredArray);
+  };
 
   return (
     <View style={styles.container}>
@@ -103,18 +128,19 @@ const HomeScreen = ({ navigation }) => {
           <>
             <ImageBackground
               source={require('../../media/imgBackground/bgHorizontal.png')}
-              style={styles.searchBox}
-            >
+              style={styles.searchBox}>
               <View />
-              <View style={{ position: 'relative', width: '65%', height: 40 }}>
+              <View style={{position: 'relative', width: '65%', height: 40}}>
                 <TextInput
                   style={styles.searchInput}
-                  placeholder="Enter phone number"
-                // Implement the logic to handle user input for searching
+                  placeholder="Nhập số điện thoại cần tìm"
+                  onChangeText={text => filteredData(text)}
+                  // Implement the logic to handle user input for searching
                 />
                 <Image
-                  style={{ position: 'absolute', top: '33%', left: '4%' }}
-                  source={require('../../media/iconApp/search.png')} />
+                  style={{position: 'absolute', top: '33%', left: '4%'}}
+                  source={require('../../media/iconApp/search.png')}
+                />
               </View>
 
               <Pressable onPress={() => goAddReport()}>
@@ -122,67 +148,87 @@ const HomeScreen = ({ navigation }) => {
               </Pressable>
               <View />
             </ImageBackground>
-            <View style={{ height: 200 }}>
+            <View style={{height: 200}}>
               <Swiper
                 showsButtons={false}
                 autoplayTimeout={4}
                 loop={true}
                 autoplay={true}
-                showsPagination={false}
-                >
+                showsPagination={false}>
                 <View
                   key={0}
-                  style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}
-                >
+                  style={{
+                    width: '100%',
+                    height: 200,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
                   <Image
-                    style={{ width: '100%', height: '100%'}}
+                    style={{width: '100%', height: '100%'}}
                     source={require('../../media/imgBackground/checkscammer.png')}
                   />
                 </View>
                 <View
                   key={1}
-                  style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}
-                >
+                  style={{
+                    width: '100%',
+                    height: 200,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
                   <Image
-                    style={{ width: '100%', height: '100%'}}
+                    style={{width: '100%', height: '100%'}}
                     source={require('../../media/imgBackground/for.png')}
                   />
                 </View>
                 <View
                   key={1}
-                  style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}
-                >
+                  style={{
+                    width: '100%',
+                    height: 200,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
                   <Image
-                    style={{ width: '100%', height: '100%'}}
+                    style={{width: '100%', height: '100%'}}
                     source={require('../../media/imgBackground/together.png')}
                   />
                 </View>
                 <View
                   key={1}
-                  style={{ width: '100%', height: 200, alignItems: 'center', justifyContent: 'center' }}
-                >
+                  style={{
+                    width: '100%',
+                    height: 200,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
                   <Image
-                    style={{ width: '100%', height: '100%'}}
+                    style={{width: '100%', height: '100%'}}
                     source={require('../../media/imgBackground/hello.png')}
                   />
                 </View>
               </Swiper>
             </View>
-            <View style={{
-              paddingHorizontal: 20,
-
-            }}>
+            <View
+              style={{
+                paddingHorizontal: 20,
+              }}>
               <FlatList
                 style={{
                   marginTop: '7%',
-                  height: '57%'
+                  height: '57%',
                 }}
                 showsVerticalScrollIndicator={false}
                 refreshControl={
-                  <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />
                 }
+                // allNumber || originalData
+                // originalData || allNumber
                 data={allNumber}
-                renderItem={({ item }) => (
+                renderItem={({item}) => (
                   <Pressable onPress={() => sendId(item._id)}>
                     <View style={styles.phoneNumberItem}>
                       <Text style={styles.phoneNumberText}>
@@ -198,7 +244,7 @@ const HomeScreen = ({ navigation }) => {
                   </Pressable>
                 )}
                 keyExtractor={item => item._id}
-              // Implement the logic to fetch and display the phone numbers and their owners
+                // Implement the logic to fetch and display the phone numbers and their owners
               />
               <View style={styles.totalScammedContainer}>
                 <Text style={styles.totalScammedText}>
@@ -222,7 +268,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: 70
+    height: 70,
   },
   totalScammedContainer: {
     flexDirection: 'row',
@@ -257,7 +303,7 @@ const styles = StyleSheet.create({
   phoneNumberText: {
     fontWeight: 'bold',
     fontSize: 20,
-    color: '#3F4A71'
+    color: '#3F4A71',
   },
   ownerText: {
     color: '#3F4A71',

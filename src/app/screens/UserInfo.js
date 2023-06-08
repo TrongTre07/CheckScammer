@@ -7,9 +7,12 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  Pressable,ImageBackground
+  Pressable,
+  ImageBackground,
+  Alert,
 } from 'react-native';
-import { useMyContext } from '../MyContext';
+import {useMyContext} from '../MyContext';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
 const UserInfo = ({navigation}) => {
   const handleLogout = () => {
@@ -20,7 +23,7 @@ const UserInfo = ({navigation}) => {
     // Implement logic to handle user account deletion
   };
 
-const {isLogged} = useMyContext()
+  const {isLogged} = useMyContext();
 
   const goLogin = () => {
     navigation.navigate('Login');
@@ -28,12 +31,32 @@ const {isLogged} = useMyContext()
   const goProfile = () => {
     navigation.navigate('MyProfile');
   };
+  const {setUserData, setIsLogged} = useMyContext();
+  const goLogout = () => {
+    Alert.alert(
+      'Đăng Xuất?',
+      'Bạn có chắc là sẽ đăng xuất không',
+      [{text: 'OK', onPress: () => logout()}],
+      {cancelable: false},
+    );
+
+    const logout = () => {
+      Toast.show({
+        type: 'success',
+        text1: 'Đăng xuất thành công!',
+      });
+      setTimeout(() => {
+        setUserData({});
+        setIsLogged(false);
+      }, 1000);
+    };
+  };
 
   return (
     <View style={styles.container}>
       <ImageBackground
-                source={require('../../media/imgBackground/bgHorizontal.png')}
-                 style={styles.header}>
+        source={require('../../media/imgBackground/bgHorizontal.png')}
+        style={styles.header}>
         <Text style={styles.me}>Tôi</Text>
       </ImageBackground>
       <Text style={styles.title}>Tài khoản</Text>
@@ -125,13 +148,16 @@ const {isLogged} = useMyContext()
             />
           </View>
           {/* Language Setting */}
-          <View style={styles.myProfileContainer}>
-            <Text style={styles.subtitle}>Đăng xuất </Text>
-            <Image
-              style={styles.iconArrow}
-              source={require('../../media/iconApp/arrow.png')}
-            />
-          </View>
+          <Pressable onPress={goLogout}>
+            <View style={styles.myProfileContainer}>
+              <Text style={styles.subtitle}>Đăng xuất </Text>
+              <Image
+                style={styles.iconArrow}
+                source={require('../../media/iconApp/arrow.png')}
+              />
+            </View>
+          </Pressable>
+          <Toast />
         </>
       ) : (
         <></>
@@ -178,10 +204,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     padding: 10,
     marginBottom: 2,
-    color:'#3F4A71'
+    color: '#3F4A71',
   },
   subtitle: {
-    color:'#3F4A71',
+    color: '#3F4A71',
     fontSize: 20,
     fontWeight: 'bold',
     padding: 10,

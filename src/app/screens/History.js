@@ -8,7 +8,8 @@ import {
   Pressable,
   Button,
   TextInput,
-  ImageBackground
+  ImageBackground,
+  RefreshControl
 } from 'react-native';
 import PopUpDetails from './PopUpDetails';
 import instance from '../../axios/AxiosInstance';
@@ -16,33 +17,8 @@ import { useMyContext } from '../MyContext';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 const History = ({ route, navigation }) => {
-  const listData = [
-    {
-      id: 1,
-      name: 'tao ne',
-      phoneNumber: '11232323',
-      bankNumber: '1123234325',
-      bankName: 'VSStudio',
-      date: '12/02/2023',
-      additionalInfo: 'abc',
-      image:
-        'https://fastly.picsum.photos/id/458/200/300.jpg?hmac=2d4QALnxYzzYD8DSwuNsa7lutkdOxLsKojuxbNfd31I',
-      status: 'dang cho',
-    },
-    {
-      id: 2,
-      name: 'tao ne',
-      phoneNumber: '1231232132',
-      bankNumber: '1123234325',
-      bankName: 'VSCode',
-      date: '12/12/2023',
-      additionalInfo: 'abc',
-      image:
-        'https://fastly.picsum.photos/id/458/200/300.jpg?hmac=2d4QALnxYzzYD8DSwuNsa7lutkdOxLsKojuxbNfd31I',
-      status: 'dang cho',
-    },
-  ];
-
+  
+  const [refreshing, setRefreshing] = React.useState(false);
   const [dataByUser, setDataByUser] = useState();
 
   const { userData } = useMyContext();
@@ -51,12 +27,12 @@ const History = ({ route, navigation }) => {
     idUser = userData.username;
   }
   useEffect(() => {
-    console.log("ID USER: ", idUser)
+    
     instance
       .get(`product/get-by-nameuser/${idUser}`)
       .then(response => {
         if (response.data.result == true) {
-          console.log('RES: ', response.data.product);
+          
           const arrNumber = response.data.product;
           setDataByUser([...arrNumber].reverse());
         } else {
@@ -102,6 +78,30 @@ const History = ({ route, navigation }) => {
 
     return dateRender;
   };
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    
+    instance
+      .get(`product/get-by-nameuser/${idUser}`)
+      .then(response => {
+        if (response.data.result == true) {
+          
+          const arrNumber = response.data.product;
+          setDataByUser([...arrNumber].reverse());
+        } else {
+          toastFail();
+        }
+      })
+      .catch(error => {
+        console.log('ERROR: ', error);
+      });
+
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
 
   const renderItem = ({ item, index }) => {
     const backgroundColor = index % 2 === 0 ? '#F5F9FF' : '#ffffff'; // Alternating background colors
@@ -187,6 +187,12 @@ const History = ({ route, navigation }) => {
                   renderItem={renderItem}
                   keyExtractor={item => item._id}
                   contentContainerStyle={styles.contentContainer}
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={refreshing}
+                      onRefresh={onRefresh}
+                    />
+                  }
                 />
                 {selectedItem && (
                   <PopUpDetails

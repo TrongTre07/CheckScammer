@@ -39,7 +39,7 @@ const ChangePassword = ({ navigation }) => {
       instance
         .post('user/change-password', { username, oldpassword, newpassword })
         .then(response => {
-          console.log('Change DATA: ', response.data);
+         
           if (response.data.result == true) {
             // setUserData(response.data.user);
             // setIsLogged(true);

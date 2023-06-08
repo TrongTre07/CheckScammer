@@ -10,6 +10,7 @@ import {
   Pressable,
   ImageBackground,
 } from 'react-native';
+import { useMyContext } from '../MyContext';
 
 const MyProfile = ({ navigation }) => {
   const handleLogout = () => {
@@ -20,7 +21,8 @@ const MyProfile = ({ navigation }) => {
     // Implement logic to handle user account deletion
   };
 
-  const [isLogin, setIslogin] = useState(false);
+  const {userData} = useMyContext()
+  
 
   const goLogin = () => {
     navigation.navigate('Login');
@@ -42,20 +44,20 @@ const MyProfile = ({ navigation }) => {
           style={{ top: 20, left: 30, resizeMode: 'cover', width: 100, height: 100 }}
           source={require('../../media/imgBackground/logo.png')} />
         <View style={{ position: 'absolute', left: 10, bottom: 20 }}>
-          <Text style={{ color: '#fff', fontSize: 22, fontWeight: '600' }}>Trần Anh huy</Text>
+          <Text style={{ color: '#fff', fontSize: 22, fontWeight: '600' }}>{userData.name}</Text>
         </View>
       </ImageBackground>
 
       {/* Notification setting */}
       <View style={styles.myProfileContainer}>
         <Text style={styles.subtitle}>Tên đăng nhập </Text>
-        <Text style={styles.subtitle}>MustFapToLive</Text>
+        <Text style={styles.subtitle}>{userData.username}</Text>
       </View>
 
       {/* Language Setting */}
       <View style={styles.myProfileContainer}>
         <Text style={styles.subtitle}>Số điện thoại</Text>
-        <Text style={styles.subtitle}>0123456789</Text>
+        <Text style={styles.subtitle}>{userData.phonenumber}</Text>
 
       </View>
       {/* Language Setting */}

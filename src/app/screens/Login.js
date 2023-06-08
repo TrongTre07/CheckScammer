@@ -41,7 +41,7 @@ const Login = ({ navigation }) => {
     instance
       .post('user/login', { username, password })
       .then(response => {
-        console.log('LOGIN DATA: ', response.data);
+       
         if (response.data.result == true) {
           setUserData(response.data.user);
           setIsLogged(true);

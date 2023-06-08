@@ -20,7 +20,6 @@ const PopUpDetails = ({modalVisible, openModal, closeModal, selectedItem}) => {
     status,
     detail,
   } = selectedItem;
-  console.log('DATA: ', selectedItem);
   const closePopup = () => {
     closeModal();
   };

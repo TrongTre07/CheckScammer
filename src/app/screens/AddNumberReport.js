@@ -54,8 +54,8 @@ const AddNumberReport = ({navigation}) => {
     nameuser: userData.username,
     phonenumber: userData.phonenumber,
   };
-  const phoneNumberPattern = /^\d{10,11}$/
-  const bankNumberPattern = /^\d{9,14}$/
+  const phoneNumberPattern = /^\d{10,11}$/;
+  const bankNumberPattern = /^\d{9,14}$/;
 
   const images = [];
 
@@ -64,9 +64,15 @@ const AddNumberReport = ({navigation}) => {
       toastRequireMore();
       return;
     }
-    if (!phoneNumberPattern.test(phonenumber) || !bankNumberPattern.test(banknumber)) {
+    if (!phoneNumberPattern.test(phonenumber)) {
       toastRequirePhone();
       return;
+    }
+    if (!bankNumberPattern.test(banknumber)) {
+      if (!banknumber == '') {
+        toastRequirePhone();
+        return;
+      }
     }
 
     const config = {
