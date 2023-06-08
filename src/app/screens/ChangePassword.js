@@ -3,13 +3,19 @@ import { View, Text, TextInput, Image, TouchableOpacity, ImageBackground, StyleS
 import instance from '../../axios/AxiosInstance';
 import Toast from 'react-native-toast-message'
 
-const ChangePassword = ({ navigation }) => {
+import {useMyContext} from '../MyContext';
 
-  const [username, setUsername] = useState()
+const ChangePassword = ({ navigation }) => {
+  const {userData} = useMyContext();
+
+  const [username, setUsername] = useState(userData.username)
   const [oldpassword, setOldPassword] = useState()
   const [newpassword, setNewPassword] = useState()
   const [confirmPassword, setConfirmPassword] = useState()
 
+
+
+  // console.log('user',userData.username)
   const toastSuccess = () => {
     Toast.show({
       type: 'success',
@@ -75,11 +81,11 @@ const ChangePassword = ({ navigation }) => {
 
         <Text style={styles.title}>ĐỔI MẬT KHẨU</Text>
 
-        <TextInput
+        {/* <TextInput
           style={styles.input}
           placeholder="Username"
           onChangeText={text => setUsername(text)}
-        />
+        /> */}
         <TextInput
           style={styles.input}
           placeholder="Mật khẩu cũ"

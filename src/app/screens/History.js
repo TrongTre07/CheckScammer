@@ -15,20 +15,39 @@ import PopUpDetails from './PopUpDetails';
 import instance from '../../axios/AxiosInstance';
 import { useMyContext } from '../MyContext';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { useIsFocused } from '@react-navigation/native';
 
 const History = ({ route, navigation }) => {
+  const { userData,isLogged } = useMyContext();
   
   const [refreshing, setRefreshing] = React.useState(false);
   const [dataByUser, setDataByUser] = useState();
-
-  const { userData } = useMyContext();
+  const isFocused = useIsFocused();
+  // const [idUser, setIdUser] = useState();
   let idUser;
-  if (userData != undefined) {
-    idUser = userData.username;
-  }
-  useEffect(() => {
-    
-    instance
+  idUser=userData?.username;
+
+  useEffect(() => { 
+    if(idUser==='admin'){
+      instance
+      .get('product/get-all')
+      .then(response => {
+        if (response.data.result == true) {
+          const list= [...response.data.product].reverse();
+          const listFill= list.filter(item => item.status.number==1);
+          setDataByUser(listFill);
+        } else {
+          Toast.show({
+            type: 'success',
+            text1: 'Lấy dữ liệu thất bại!',
+          });
+        }
+      })
+      .catch(error => {
+        console.log('ERROR: ', error);
+      });
+    }else{
+      instance
       .get(`product/get-by-nameuser/${idUser}`)
       .then(response => {
         if (response.data.result == true) {
@@ -42,7 +61,13 @@ const History = ({ route, navigation }) => {
       .catch(error => {
         console.log('ERROR: ', error);
       });
-  }, [idUser]);
+      
+    }
+    
+  }, [isFocused]);
+
+
+
 
   const toastFail = () => {
     Toast.show({
@@ -82,7 +107,27 @@ const History = ({ route, navigation }) => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     
-    instance
+    if(idUser==='admin'){
+      instance
+      .get('product/get-all')
+      .then(response => {
+        if (response.data.result == true) {
+          const list= [...response.data.product].reverse();
+          const listFill= list.filter(item => item.status.number==1);
+          setDataByUser(listFill);
+        } else {
+          Toast.show({
+            type: 'success',
+            text1: 'Lấy dữ liệu thất bại!',
+          });
+        }
+      })
+      .catch(error => {
+        console.log('ERROR: ', error);
+      });
+      
+    }else{
+      instance
       .get(`product/get-by-nameuser/${idUser}`)
       .then(response => {
         if (response.data.result == true) {
@@ -96,11 +141,12 @@ const History = ({ route, navigation }) => {
       .catch(error => {
         console.log('ERROR: ', error);
       });
-
+    }
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
   }, []);
+
 
 
   const renderItem = ({ item, index }) => {
@@ -138,7 +184,7 @@ const History = ({ route, navigation }) => {
   };
   return (
     <>
-      {userData == undefined ? (
+      {!isLogged? (
         <View
           style={{
             flexDirection: 'row',

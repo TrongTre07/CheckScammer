@@ -5,7 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
-  StyleSheet, Image
+  StyleSheet, Image,ToastAndroid
 } from 'react-native';
 import instance from '../../axios/AxiosInstance';
 import { useMyContext } from '../MyContext';
@@ -14,7 +14,7 @@ import { Toast } from 'react-native-toast-message/lib/src/Toast';
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState('thaihoaaa');
   const [password, setPassword] = useState('123');
-  const { setUserData, setIsLogged } = useMyContext();
+  const { setUserData,userData, setIsLogged } = useMyContext();
 
   const goRegister = () => {
     navigation.navigate('Register');
@@ -37,20 +37,25 @@ const Login = ({ navigation }) => {
     navigation.navigate("Homepage")
   }
 
-  const login = () => {
+  const login = async () => {
     instance
       .post('user/login', { username, password })
       .then(response => {
        
         if (response.data.result == true) {
           setUserData(response.data.user);
+          
+          // toastSuccess();
+          ToastAndroid.show('Đăng nhập thành công!', ToastAndroid.SHORT);
+          setTimeout(()=>{
           setIsLogged(true);
-          toastSuccess();
-          setTimeout(goHome, 2000)
+            navigation.goBack();
+          }, 1000)
+          
         } else {
-          setUserData(response.data.user);
-          setIsLogged(false);
-          toastFail();
+          // setUserData(response.data.user);
+          // setIsLogged(false);
+          ToastAndroid.show('Đăng nhập thất bại!', ToastAndroid.SHORT);
         }
       })
       .catch(error => {
@@ -75,7 +80,7 @@ const Login = ({ navigation }) => {
         style={styles.input}
         onChangeText={text => setUsername(text)}
         placeholder="Tên đăng nhập"
-        defaultValue="thaihoaaa"
+        defaultValue=""
       />
 
       <TextInput
@@ -83,7 +88,7 @@ const Login = ({ navigation }) => {
         onChangeText={text => setPassword(text)}
         placeholder="Mật khẩu"
         secureTextEntry
-        defaultValue="123"
+        defaultValue=""
       />
 
       <TouchableOpacity style={styles.button} onPress={login}>

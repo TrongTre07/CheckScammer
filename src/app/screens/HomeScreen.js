@@ -33,7 +33,11 @@ const HomeScreen = ({navigation}) => {
       .get('product/get-all')
       .then(response => {
         if (response.data.result == true) {
-          setAllNumber([...response.data.product].reverse());
+          // const a = response.data.product.map(item => item.status.number==2).reverse();
+          const list= [...response.data.product].reverse();
+          const listFill= list.filter(item => item.status.number==2);
+          setAllNumber(listFill);
+          // setAllNumber(a);
         } else {
           Toast.show({
             type: 'success',
@@ -46,6 +50,8 @@ const HomeScreen = ({navigation}) => {
       });
   }, []);
 
+  console.log(allNumber)
+
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -55,9 +61,9 @@ const HomeScreen = ({navigation}) => {
       .get('product/get-all')
       .then(response => {
         if (response.data.result == true) {
-          const arrNumber = response.data.product;
-          const reverseArr = [...arrNumber].reverse();
-          setAllNumber(reverseArr);
+          const list= [...response.data.product].reverse();
+          const listFill= list.filter(item => item.status.number==2);
+          setAllNumber(listFill);
         } else {
           Toast.show({
             type: 'success',
@@ -104,7 +110,7 @@ const HomeScreen = ({navigation}) => {
   const filteredData = searchText => {
     if (searchText == '') {
       
-      setAllNumber(originalData);
+      onRefresh();
     }
 
     allNumber.forEach(obj => {

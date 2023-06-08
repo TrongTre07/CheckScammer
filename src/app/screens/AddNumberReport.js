@@ -6,6 +6,7 @@ import {
   Flatlist,
   TextInput,
   Pressable,
+  ToastAndroid,
   ScrollView,
   RefreshControl,
 } from 'react-native';
@@ -61,16 +62,18 @@ const AddNumberReport = ({navigation}) => {
 
   const goReport = () => {
     if (phonenumber == null || name == null) {
-      toastRequireMore();
+      ToastAndroid.show('Bạn cần nhập đầy đủ thông tin', ToastAndroid.SHORT);
       return;
     }
     if (!phoneNumberPattern.test(phonenumber)) {
-      toastRequirePhone();
+      ToastAndroid.show('Số điện thoại hoặc số ngân hàng không đúng!', ToastAndroid.SHORT);
+
       return;
     }
     if (!bankNumberPattern.test(banknumber)) {
       if (!banknumber == '') {
-        toastRequirePhone();
+        ToastAndroid.show('Số điện thoại hoặc số ngân hàng không đúng!', ToastAndroid.SHORT);
+
         return;
       }
     }
@@ -98,13 +101,20 @@ const AddNumberReport = ({navigation}) => {
       .then(response => {
         // console.log('RES: ', response.data);
         if (response.data.result == true) {
-          toastSuccess();
+          // toastSuccess();
+          ToastAndroid.show('Bạn đã tố cáo thành công!', ToastAndroid.SHORT);
+          setTimeout(() => {
+          navigation.goBack();
+            
+          }, 1000);
         } else {
-          toastFail();
+          // toastFail();
+          ToastAndroid.show('Có lỗi xảy ra!', ToastAndroid.SHORT);
         }
       })
       .catch(error => {
-        toastFail();
+        // toastFail();
+        ToastAndroid.show('Có lỗi xảy ra!', ToastAndroid.SHORT);
         console.log('ERROR: ', error);
       });
   };
