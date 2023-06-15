@@ -6,7 +6,8 @@ const Welcome = ({navigation}) => {
         navigation.replace('AppNavigation');
     }, 1000);
   return (
-    <Image style={{flex:1,width:'100%',height:'100%'}} source={require('../../media/imgBackground/Wellcome.png')} />
+    <Image style={{flex:1,width:'100%',height:'100%'}} source={require('../../media/imgBackground/wellcome1.png')} />
+    // <></>
   )
 }
 

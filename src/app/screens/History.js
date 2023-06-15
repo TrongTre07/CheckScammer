@@ -104,48 +104,48 @@ const History = ({ route, navigation }) => {
     return dateRender;
   };
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
+  // const onRefresh = React.useCallback(() => {
+  //   setRefreshing(true);
     
-    if(idUser==='admin'){
-      instance
-      .get('product/get-all')
-      .then(response => {
-        if (response.data.result == true) {
-          const list= [...response.data.product].reverse();
-          const listFill= list.filter(item => item.status.number==1);
-          setDataByUser(listFill);
-        } else {
-          Toast.show({
-            type: 'success',
-            text1: 'Lấy dữ liệu thất bại!',
-          });
-        }
-      })
-      .catch(error => {
-        console.log('ERROR: ', error);
-      });
+  //   if(idUser==='admin'){
+  //     instance
+  //     .get('product/get-all')
+  //     .then(response => {
+  //       if (response.data.result == true) {
+  //         const list= [...response.data.product].reverse();
+  //         const listFill= list.filter(item => item.status.number==1);
+  //         setDataByUser(listFill);
+  //       } else {
+  //         Toast.show({
+  //           type: 'success',
+  //           text1: 'Lấy dữ liệu thất bại!',
+  //         });
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log('ERROR: ', error);
+  //     });
       
-    }else{
-      instance
-      .get(`product/get-by-nameuser/${idUser}`)
-      .then(response => {
-        if (response.data.result == true) {
+  //   }else{
+  //     instance
+  //     .get(`product/get-by-nameuser/${idUser}`)
+  //     .then(response => {
+  //       if (response.data.result == true) {
           
-          const arrNumber = response.data.product;
-          setDataByUser([...arrNumber].reverse());
-        } else {
-          toastFail();
-        }
-      })
-      .catch(error => {
-        console.log('ERROR: ', error);
-      });
-    }
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
+  //         const arrNumber = response.data.product;
+  //         setDataByUser([...arrNumber].reverse());
+  //       } else {
+  //         toastFail();
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log('ERROR: ', error);
+  //     });
+  //   }
+  //   setTimeout(() => {
+  //     setRefreshing(false);
+  //   }, 2000);
+  // }, []);
 
 
 
@@ -213,7 +213,7 @@ const History = ({ route, navigation }) => {
                 <View style={{ position: 'relative', width: '65%', height: 40 }}>
                   <TextInput
                     style={styles.searchInput}
-                    placeholder="Enter phone number"
+                    placeholder="Nhập số điện thoại cần tìm"
                   // Implement the logic to handle user input for searching
                   />
                   <Image
@@ -233,12 +233,12 @@ const History = ({ route, navigation }) => {
                   renderItem={renderItem}
                   keyExtractor={item => item._id}
                   contentContainerStyle={styles.contentContainer}
-                  refreshControl={
-                    <RefreshControl
-                      refreshing={refreshing}
-                      onRefresh={onRefresh}
-                    />
-                  }
+                  // refreshControl={
+                  //   <RefreshControl
+                  //     refreshing={refreshing}
+                  //     onRefresh={onRefresh}
+                  //   />
+                  // }
                 />
                 {selectedItem && (
                   <PopUpDetails

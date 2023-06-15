@@ -149,14 +149,15 @@ const AddNumberReport = ({navigation}) => {
   };
 
   return (
-    <ScrollView automaticallyAdjustKeyboardInsets={true}>
-      <View style={styles.container}>
+    <ScrollView style={styles.container} automaticallyAdjustKeyboardInsets={true}>
+      <View >
         <View>
           <Image
             style={styles.image}
-            source={{
-              uri: 'https://fastly.picsum.photos/id/413/200/300.jpg?hmac=bfSGClFpOROonzp5IIDI-aVAQMyyCC9lSOp184Tqu4M',
-            }}
+            // source={{
+            //   uri: 'https://fastly.picsum.photos/id/413/200/300.jpg?hmac=bfSGClFpOROonzp5IIDI-aVAQMyyCC9lSOp184Tqu4M',
+            // }}
+            source={require('../../media/iconApp/panda.png')}
           />
         </View>
 
@@ -212,19 +213,21 @@ const AddNumberReport = ({navigation}) => {
 
         {/* Confirm and Cancel */}
         <View style={styles.twoButton}>
-          <Pressable
-            style={[styles.button, {backgroundColor: '#90CAF8'}]}
-            onPress={() => navigation.goBack()}>
-            <Text style={styles.textButton}>Hủy </Text>
-          </Pressable>
-          <Pressable
-            style={[styles.button, {backgroundColor: '#EE6A40'}]}
+        <Pressable
+            style={[styles.button, {backgroundColor: '#0E2470'}]}
             onPress={goReport}>
             <Text style={styles.textButton}>Tố cáo </Text>
           </Pressable>
+          <Pressable
+            style={[styles.button, {backgroundColor: 'red'}]}
+            onPress={() => navigation.goBack()}>
+            <Text style={styles.textButton}>Hủy </Text>
+          </Pressable>
+
         </View>
 
         <DatePicker
+
           modal
           open={open}
           date={date}
@@ -288,6 +291,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   image: {
+    resizeMode:'contain',
     width: '100%',
     height: 200,
   },
@@ -296,10 +300,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderBottomWidth: 0.2,
-    borderBottomColor: 'black',
+    borderBottomColor: '#0E2470',
     height: 50,
   },
   container: {
+    backgroundColor:'#FAFBFF',
     flex: 1,
   },
 });
